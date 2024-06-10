@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "firebase": "^10.12.2",
     "react": "^19.0.0-rc-34d0c5e357-20240607",
     "react-dom": "^19.0.0-rc-34d0c5e357-20240607",
     "react-router-dom": "^6.23.1"
