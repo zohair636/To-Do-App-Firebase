@@ -1,10 +1,11 @@
-import React from "react";
 import { signUpText } from "../../../Global/text";
 
-const SignUpButton = ({ submit }) => {
+const SignUpButton = ({ submit, isLoading }) => {
   return (
-    <div>
-      <button onClick={submit}>{signUpText.SIGNUP_BUTTON_LABEL}</button>
+    <div className="flex justify-center items-center">
+      <button onClick={submit}>
+        {isLoading ? "Loading..." : signUpText.SIGNUP_BUTTON_LABEL}
+      </button>
     </div>
   );
 };
