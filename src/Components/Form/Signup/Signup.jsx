@@ -1,17 +1,18 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { signUpText } from "../../../Global/text";
 import SignUpButton from "../../Buttons/Submit/SignUpButton";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import app from "../../../Global/firebaseConfig";
 import { Eye, EyeOff } from "lucide-react";
 import { formColors } from "../../../Global/colors";
+import { UserSetterProvider } from "../../../App";
 
 const Signup = () => {
-  debugger
   const auth = getAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [message, setMessage] = useState("");
+  const { getActiveForm } = useContext(UserSetterProvider);
   const [userInput, setUserInput] = useState([
     {
       id: "1",
@@ -113,7 +114,10 @@ const Signup = () => {
               <p className="text-neutral-700">
                 {signUpText.ALREADY_HAVE_AN_ACCOUNT}
               </p>
-              <p className="text-sky-700 px-2 cursor-pointer">
+              <p
+                className="text-sky-700 px-2 cursor-pointer"
+                onClick={() => getActiveForm("Signin")}
+              >
                 {signUpText.SIGNIN}
               </p>
             </div>
