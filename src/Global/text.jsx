@@ -7,6 +7,8 @@ const signUpText = {
   EMAIL_PLACEHOLDER: "Enter your email address",
   PASSWORD_PLACEHOLDER: "Enter your password",
   SIGNUP_BUTTON_LABEL: "Sign Up",
+  ALREADY_HAVE_AN_ACCOUNT: "Already have an account?",
+  SIGNIN: "Signin",
 };
 
 export { signUpText };
