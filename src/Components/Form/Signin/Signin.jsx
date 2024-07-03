@@ -6,9 +6,11 @@ import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../../Global/firebaseConfig";
 import SignInButton from "../../Buttons/Submit/SignInButton";
 import { UserSetterProvider } from "../../../App";
+import { useNavigate } from "react-router-dom";
 
 const Signin = () => {
   const auth = getAuth(app);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const { getActiveForm } = useContext(UserSetterProvider);
@@ -42,6 +44,7 @@ const Signin = () => {
     try {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
+      navigate("/Home");
     } catch (error) {
       console.log(error);
       setIsLoading(false);

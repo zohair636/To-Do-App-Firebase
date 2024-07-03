@@ -19,7 +19,11 @@ const signinText = {
   PASSWORD_PLACEHOLDER: "Enter your password",
   SIGNIN_BUTTON_LABEL: "Sign In",
   DID_NOT_HAVE_AN_ACCOUNT: "Didn't have an account?",
-  SIGNUP: 'Signup',
+  SIGNUP: "Signup",
 };
 
-export { signUpText, signinText };
+const createTodoText = {
+  BUTTON_NAME: "+ | Create New Todo",
+};
+
+export { signUpText, signinText, createTodoText };
