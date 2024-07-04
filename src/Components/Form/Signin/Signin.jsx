@@ -53,6 +53,13 @@ const Signin = () => {
     }
   };
 
+  const handleEnterKey = (e, index) => {
+    if(e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit(index)
+    }
+  }
+
   return (
     <div className="absolute inset-0 flex justify-center items-center">
       <div className="bg-white backdrop-blur-md shadow-lg p-10 rounded-2xl">
@@ -67,6 +74,7 @@ const Signin = () => {
                 <input
                   value={input.value}
                   onChange={(e) => handleChange(e, index)}
+                  onKeyDown={(e) => handleEnterKey(e, index)}
                   placeholder={input.placeholder}
                   type={
                     input.label === signinText.PASSWORD_LABEL

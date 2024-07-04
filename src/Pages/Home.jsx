@@ -1,9 +1,11 @@
+import Sidebar from "../Components/SideBar/Sidebar";
 import CreateTodo from "../Components/Todos/CreateTodo";
 
 const Home = () => {
   return (
-    <div>
-      <CreateTodo />
+    <div className="bg-neutral-100">
+      <Sidebar />
+      {/* <CreateTodo /> */}
     </div>
   );
 };

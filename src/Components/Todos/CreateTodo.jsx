@@ -5,10 +5,12 @@ import { db } from "../../Global/firebaseConfig";
 
 const CreateTodo = () => {
   const [userInput, setUserInput] = useState("");
-  const [todoList, setTodoList] = useState([{completed: false}]);
+  const [todoList, setTodoList] = useState([]);
+  const date = new Date();
 
   const handleTodoList = () => {
     setTodoList((prev) => [...prev, { todo: userInput }]);
+    setUserInput('')
   };
 
   const handleUserInput = (e) => {
@@ -42,25 +44,35 @@ const CreateTodo = () => {
     })
   }
 
+  const handleEnterKey = (e) => {
+    if(e.key === 'Enter') {
+      e.preventDefault();
+      handleTodoList(e);
+    }
+  }
+
   return (
-    <div className="">
+    <div>
       <CreateTodoButton />
       <input
         value={userInput}
         onChange={(e) => handleUserInput(e)}
+        onKeyDown={(e) => handleEnterKey(e)}
         placeholder="Enter your todo name"
       />
       <button onClick={handleTodoList}>Add To Do</button>
+      <input value={userInput} onChange={(e) => setUserInput(e.target.value)} />
       {todoList.map((list, index) => {
         return (
           <div key={index} className="flex justify-start items-center">
             <p className={`${list.completed === true ? 'line-through' : null}`}>{index + 1}. {list.todo}</p>
+            <p>{date.toLocaleDateString()}</p>
             <button className="px-3" onClick={() => handleRemoveTodo(index)}>Remove</button>
             <button className="px-3" onClick={() => handleCompleteTodo(index)}>Complete</button>
           </div>
         );
       })}
-      <button onClick={handleSubmit}>submit</button>
+      {/* <button onClick={handleSubmit}>submit</button> */}
     </div>
   );
 };

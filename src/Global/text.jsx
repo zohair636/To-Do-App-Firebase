@@ -22,8 +22,16 @@ const signinText = {
   SIGNUP: "Signup",
 };
 
+const sideBarText = {
+  HOME_LABEL: "Home",
+  HISTORY_LABEL: "History",
+  PARTICIPANTS_LABEL: "Participants",
+  CREATE_TEAM_LABEL: 'Create Team',
+  USER_PROFILE_LABEL: "User Profile",
+};
+
 const createTodoText = {
   BUTTON_NAME: "+ | Create New Todo",
 };
 
-export { signUpText, signinText, createTodoText };
+export { signUpText, signinText, sideBarText, createTodoText };
