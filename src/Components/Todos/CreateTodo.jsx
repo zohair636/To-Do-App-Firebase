@@ -45,7 +45,7 @@ const CreateTodo = () => {
   }
 
   const handleEnterKey = (e) => {
-    if(e.key === 'Enter') {
+    if (e.key === 'Enter') {
       e.preventDefault();
       handleTodoList(e);
     }

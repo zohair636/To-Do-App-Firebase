@@ -1,3 +1,7 @@
+const commonText = {
+  APP_TITLE: "TF Todo",
+};
+
 const signUpText = {
   TITLE: "Signup To Continue",
   FULL_NAME_LABEL: "Full Name",
@@ -23,15 +27,17 @@ const signinText = {
 };
 
 const sideBarText = {
+  DASHBOARD_LABEL: "Dashboard",
   HOME_LABEL: "Home",
   HISTORY_LABEL: "History",
   PARTICIPANTS_LABEL: "Participants",
-  CREATE_TEAM_LABEL: 'Create Team',
+  CREATE_TEAM_LABEL: "Create Team",
   USER_PROFILE_LABEL: "User Profile",
+  SETTINGS_LABEL: 'Settings',
 };
 
 const createTodoText = {
   BUTTON_NAME: "+ | Create New Todo",
 };
 
-export { signUpText, signinText, sideBarText, createTodoText };
+export { commonText, signUpText, signinText, sideBarText, createTodoText };
