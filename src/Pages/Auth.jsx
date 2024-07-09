@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import Signin from "../Components/Form/Signin/Signin";
 import Signup from "../Components/Form/Signup/Signup";
-import { UserGetterProvider } from "../App";
+import { FormContextGetterProvider } from "../Context/FormContext";
 
 const Auth = () => {
-  const { activeForm } = useContext(UserGetterProvider);
+  const { activeForm } = useContext(FormContextGetterProvider);
 
   return (
     <>

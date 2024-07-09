@@ -4,14 +4,19 @@ import {
   GalleryVerticalEnd,
   Users,
   UserRoundPlus,
-  CircleUser,
   EllipsisVertical,
+  CircleChevronLeft,
+  CircleChevronRight,
 } from "lucide-react";
 import { commonText, sideBarText } from "../../Global/text";
 import { iconsColor } from "../../Global/colors";
 
 const SideBarHelperFunction = () => ({
   id: crypto.randomUUID(),
+  toggle_icons: {
+    close: <CircleChevronLeft size={20} color={iconsColor.ACTIVE_ICON_COLOR} />,
+    open: <CircleChevronRight size={20} color={iconsColor.ACTIVE_ICON_COLOR} />,
+  },
   app_title: {
     id: crypto.randomUUID(),
     title: commonText.APP_TITLE,
@@ -43,11 +48,6 @@ const SideBarHelperFunction = () => ({
       title: sideBarText.CREATE_TEAM_LABEL,
       icon: <UserRoundPlus size={20} color={iconsColor.ACTIVE_ICON_COLOR} />,
     },
-    {
-      id: crypto.randomUUID(),
-      title: sideBarText.USER_PROFILE_LABEL,
-      icon: <CircleUser size={20} color={iconsColor.ACTIVE_ICON_COLOR} />,
-    },
   ],
   setting: {
     id: crypto.randomUUID(),
@@ -57,8 +57,9 @@ const SideBarHelperFunction = () => ({
   profile: {
     id: crypto.randomUUID(),
     title: sideBarText.USER_PROFILE_LABEL,
-    icon: <EllipsisVertical size={15} color={iconsColor.ACTIVE_ICON_COLOR} />
+    icon: <EllipsisVertical size={15} color={iconsColor.ACTIVE_ICON_COLOR} />,
   },
+  isSideBarClosed: false,
 });
 
 export { SideBarHelperFunction };
