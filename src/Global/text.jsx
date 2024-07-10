@@ -33,7 +33,14 @@ const sideBarText = {
   PARTICIPANTS_LABEL: "Participants",
   CREATE_TEAM_LABEL: "Create Team",
   USER_PROFILE_LABEL: "User Profile",
-  SETTINGS_LABEL: 'Settings',
+  SETTINGS_LABEL: "Settings",
+  GENERAL_LABEL: "General",
+  PERSONALIZATION_LABEL: "Personalization",
+  BUILDER_PROFILE_LABEL: "Builder profile",
+  DATA_CONTROL_LABEL: "Data controls",
+  USER_NAME_LABEL: 'Zohair Ajmal',
+  USER_EMAIL_LABEL: 'hafiz.zohair2@gmail.com',
+  THEME_LABEL: 'Theme',
 };
 
 const createTodoText = {

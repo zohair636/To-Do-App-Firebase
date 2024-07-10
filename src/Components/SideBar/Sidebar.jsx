@@ -5,11 +5,14 @@ import {
   AppContextGetterProvider,
   AppContextSetterProvider,
 } from "../../Context/AppContext";
+import SettingsModal from "../Modal/SettingsModal/SettingsModal";
+import SettingsModalData from "../Modal/SettingsModal/SettingsModalData";
 
 const Sidebar = () => {
   const [sideBar, setSideBar] = useState([SideBarHelperFunction()]);
   const { getActiveMenu } = useContext(AppContextSetterProvider);
   const { activeMenu } = useContext(AppContextGetterProvider);
+  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
 
   const handleActiveMenu = (active, index) => {
     if (index > 0) {
@@ -96,7 +99,7 @@ const Sidebar = () => {
               <div
                 className={`${
                   activeMenu === items?.setting?.title
-                    ? "absolute bottom-20 left-0 border-l-4 border-neutral-600 h-6 rounded-full"
+                    ? "absolute top-3/4 mt-11 left-0 border-l-4 border-neutral-600 h-6 rounded-full"
                     : null
                 }`}
               />
@@ -105,8 +108,11 @@ const Sidebar = () => {
                   items?.isSideBarClosed === true
                     ? "justify-center"
                     : "justify-start"
-                } items-center cursor-pointer hover:bg-neutral-100 hover:duration-300 duration-300 p-1 m-3 rounded-md absolute inset-0 top-3/4 -mt-12`}
-                onClick={() => getActiveMenu(items?.setting?.title)}
+                } items-center cursor-pointer hover:bg-neutral-100 hover:duration-300 duration-300 p-1 m-3 rounded-md absolute inset-0 top-3/4 mt-10 h-fit`}
+                onClick={() => {
+                  getActiveMenu(items?.setting?.title),
+                    setIsSettingsModalOpen(true);
+                }}
               >
                 <p className="px-2">{items?.setting?.icon}</p>
                 {items?.isSideBarClosed === true ? null : (
@@ -147,6 +153,12 @@ const Sidebar = () => {
           </div>
         );
       })}
+      <SettingsModal
+        visible={isSettingsModalOpen}
+        onClose={() => setIsSettingsModalOpen(false)}
+      >
+        <SettingsModalData onClose={() => setIsSettingsModalOpen(false)} />
+      </SettingsModal>
     </div>
   );
 };
