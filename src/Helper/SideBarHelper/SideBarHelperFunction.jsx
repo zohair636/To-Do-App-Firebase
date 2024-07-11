@@ -11,6 +11,10 @@ import {
   BookUser,
   UserCog,
   Stamp,
+  LaptopMinimal,
+  Moon,
+  Sun,
+  ChevronDown,
 } from "lucide-react";
 import { commonText, sideBarText } from "../../Global/text";
 import { iconsColor } from "../../Global/colors";
@@ -83,6 +87,31 @@ const SideBarHelperFunction = () => ({
           {
             id: crypto.randomUUID(),
             title: sideBarText.THEME_LABEL,
+            icon: (
+              <ChevronDown size={defaultIconSize} color={defaultIconColor} />
+            ),
+            theme_name: [
+              {
+                id: crypto.randomUUID(),
+                title: sideBarText.SYSTEM_THEME_LABEL,
+                icon: (
+                  <LaptopMinimal
+                    size={defaultIconSize}
+                    color={defaultIconColor}
+                  />
+                ),
+              },
+              {
+                id: crypto.randomUUID(),
+                title: sideBarText.DARK_THEME_LABEL,
+                icon: <Moon size={defaultIconSize} color={defaultIconColor} />,
+              },
+              {
+                id: crypto.randomUUID(),
+                title: sideBarText.LIGHT_THEME_LABEL,
+                icon: <Sun size={defaultIconSize} color={defaultIconColor} />,
+              },
+            ],
           },
         ],
       },

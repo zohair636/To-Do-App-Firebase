@@ -2,7 +2,7 @@ import React from 'react';
 
 const PersonalizationOption = () => {
     return (
-        <div>
+        <div className='mx-7 my-5'>
             <p>Personalization</p>
         </div>
     );
