@@ -1,22 +1,16 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 import Navigate from "./Routes/Navigate";
+import CombinedContextProvider from "./Context/CombinedContextProvider";
 
 export const UserSetterProvider = createContext();
 export const UserGetterProvider = createContext();
 
 const App = () => {
-  const [activeForm, setActiveForm] = useState('Signin');
-
-  const getActiveForm = (form) => {
-    setActiveForm(form);
-  }
 
   return (
-    <UserSetterProvider.Provider value={{getActiveForm}}>
-      <UserGetterProvider.Provider value={{activeForm}}>
-        <Navigate />
-      </UserGetterProvider.Provider>
-    </UserSetterProvider.Provider>
+    <CombinedContextProvider>
+      <Navigate />
+    </CombinedContextProvider>
   );
 };
 

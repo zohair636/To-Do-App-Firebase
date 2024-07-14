@@ -5,13 +5,15 @@ import { formColors } from "../../../Global/colors";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import app from "../../../Global/firebaseConfig";
 import SignInButton from "../../Buttons/Submit/SignInButton";
-import { UserSetterProvider } from "../../../App";
+import { useNavigate } from "react-router-dom";
+import { FormContextSetterProvider } from "../../../Context/FormContext";
 
 const Signin = () => {
   const auth = getAuth(app);
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const { getActiveForm } = useContext(UserSetterProvider);
+  const { getActiveForm } = useContext(FormContextSetterProvider);
   const [userInput, setUserInput] = useState([
     {
       id: "1",
@@ -42,6 +44,7 @@ const Signin = () => {
     try {
       setIsLoading(true);
       await signInWithEmailAndPassword(auth, email, password);
+      navigate("/Home");
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -49,6 +52,13 @@ const Signin = () => {
       setIsLoading(false);
     }
   };
+
+  const handleEnterKey = (e, index) => {
+    if(e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit(index)
+    }
+  }
 
   return (
     <div className="absolute inset-0 flex justify-center items-center">
@@ -64,6 +74,7 @@ const Signin = () => {
                 <input
                   value={input.value}
                   onChange={(e) => handleChange(e, index)}
+                  onKeyDown={(e) => handleEnterKey(e, index)}
                   placeholder={input.placeholder}
                   type={
                     input.label === signinText.PASSWORD_LABEL

@@ -5,14 +5,14 @@ import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import app from "../../../Global/firebaseConfig";
 import { Eye, EyeOff } from "lucide-react";
 import { formColors } from "../../../Global/colors";
-import { UserSetterProvider } from "../../../App";
+import { FormContextSetterProvider } from "../../../Context/FormContext";
 
 const Signup = () => {
   const auth = getAuth();
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [message, setMessage] = useState("");
-  const { getActiveForm } = useContext(UserSetterProvider);
+  const { getActiveForm } = useContext(FormContextSetterProvider);
   const [userInput, setUserInput] = useState([
     {
       id: "1",

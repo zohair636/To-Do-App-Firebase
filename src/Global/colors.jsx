@@ -3,4 +3,8 @@ const formColors = {
   EYE_CLOSE_ICON_COLOR: "#28B463"
 };
 
-export { formColors };
+const iconsColor = {
+  ACTIVE_ICON_COLOR: "#707B7C",
+}
+
+export { formColors, iconsColor };
