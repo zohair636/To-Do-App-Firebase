@@ -36,7 +36,7 @@ const sideBarText = {
   SETTINGS_LABEL: "Settings",
   GENERAL_LABEL: "General",
   PERSONALIZATION_LABEL: "Personalization",
-  BUILDER_PROFILE_LABEL: "Builder profile",
+  BUILDER_PROFILE_LABEL: "Profile builder",
   DATA_CONTROL_LABEL: "Data controls",
   USER_NAME_LABEL: "Zohair Ajmal",
   USER_EMAIL_LABEL: "hafiz.zohair2@gmail.com",
@@ -44,6 +44,15 @@ const sideBarText = {
   SYSTEM_THEME_LABEL: "System",
   LIGHT_THEME_LABEL: "Light",
   DARK_THEME_LABEL: "Dark",
+  DELETE_ACCOUNT_LABEL: "Delete account",
+  DELETE_LABEL: "Delete",
+  LINKS_LABEL: "Links",
+  LINKEDIN_LABEL: "LinkedIn",
+  GITHUB_LABEL: "Github",
+  TWITTER_LABEL: "Twitter",
+  FACEBOOK_LABEL: "Facebook",
+  ADD_LABEL: "Add",
+  PROFILE_LABEL: "Profile",
 };
 
 const createTodoText = {

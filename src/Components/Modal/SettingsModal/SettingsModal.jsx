@@ -18,7 +18,7 @@ const SettingsModal = ({ visible, children, onClose }) => {
         onClick={onClose}
       />
       <div
-        className="fixed z-50 bg-white md:w-6/12 w-96 h-[60vh] max-h-[70vh] overflow-y-auto rounded-3xl"
+        className="fixed z-50 bg-white md:w-6/12 w-96 h-[60vh] max-h-[70vh] overflow-hidden rounded-3xl"
         style={{ top: "50%", left: "50%", transform: `translate(-50%, -50%)` }}
       >
         {children}

@@ -1,10 +1,10 @@
 import FormContext from "./FormContext";
-import AppContext from "./AppContext";
+import SideBarContext from "./SideBarContext";
 
 const CombinedContextProvider = ({ children }) => {
   return (
     <FormContext>
-      <AppContext>{children}</AppContext>
+      <SideBarContext>{children}</SideBarContext>
     </FormContext>
   );
 };

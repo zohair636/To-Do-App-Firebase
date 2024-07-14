@@ -2,21 +2,20 @@ import { useContext, useState } from "react";
 import { SideBarHelperFunction } from "../../Helper/SideBarHelper/SideBarHelperFunction";
 import ProfileImage from "../../assets/My Pic.jpg";
 import {
-  AppContextGetterProvider,
-  AppContextSetterProvider,
-} from "../../Context/AppContext";
+  SideBarContextGetterProvider,
+  SideBarContextSetterProvider,
+} from "../../Context/SideBarContext";
 import SettingsModal from "../Modal/SettingsModal/SettingsModal";
 import SettingsModalData from "../Modal/SettingsModal/SettingsModalData";
 
 const Sidebar = () => {
   const [sideBar, setSideBar] = useState([SideBarHelperFunction()]);
-  const { getActiveMenu } = useContext(AppContextSetterProvider);
-  const { activeMenu } = useContext(AppContextGetterProvider);
-  const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
+  const { setActiveMenu, setIsSettingsModalOpen, setIsSideBarClosed } = useContext(SideBarContextSetterProvider);
+  const { activeMenu, isSettingsModalOpen } = useContext(SideBarContextGetterProvider);
 
   const handleActiveMenu = (active, index) => {
     if (index > 0) {
-      getActiveMenu(active);
+      setActiveMenu(active);
     }
   };
 
@@ -26,6 +25,7 @@ const Sidebar = () => {
       updateSideBar[index].isSideBarClosed = !sideBar;
       return updateSideBar;
     });
+    setIsSideBarClosed(!sideBar)
   };
 
   return (
@@ -110,7 +110,7 @@ const Sidebar = () => {
                     : "justify-start"
                 } items-center cursor-pointer hover:bg-neutral-100 hover:duration-300 duration-300 p-1 m-3 rounded-md absolute inset-0 top-3/4 mt-10 h-fit`}
                 onClick={() => {
-                  getActiveMenu(items?.setting?.title),
+                  setActiveMenu(items?.setting?.title),
                     setIsSettingsModalOpen(true);
                 }}
               >

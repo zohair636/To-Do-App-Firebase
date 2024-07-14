@@ -15,6 +15,10 @@ import {
   Moon,
   Sun,
   ChevronDown,
+  Facebook,
+  Github,
+  Linkedin,
+  Twitter,
 } from "lucide-react";
 import { commonText, sideBarText } from "../../Global/text";
 import { iconsColor } from "../../Global/colors";
@@ -114,6 +118,34 @@ const SideBarHelperFunction = () => ({
             ],
           },
         ],
+        profile_builder: {
+          social: [
+            {
+              id: crypto.randomUUID(),
+              title: sideBarText.FACEBOOK_LABEL,
+              icon: (
+                <Facebook size={defaultIconSize} color={defaultIconColor} />
+              ),
+            },
+            {
+              id: crypto.randomUUID(),
+              title: sideBarText.LINKEDIN_LABEL,
+              icon: (
+                <Linkedin size={defaultIconSize} color={defaultIconColor} />
+              ),
+            },
+            {
+              id: crypto.randomUUID(),
+              title: sideBarText.GITHUB_LABEL,
+              icon: <Github size={defaultIconSize} color={defaultIconColor} />,
+            },
+            {
+              id: crypto.randomUUID(),
+              title: sideBarText.TWITTER_LABEL,
+              icon: <Twitter size={defaultIconSize} color={defaultIconColor} />,
+            },
+          ],
+        },
       },
       {
         id: crypto.randomUUID(),

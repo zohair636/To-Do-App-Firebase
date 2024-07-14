@@ -4,21 +4,23 @@ import { X } from "lucide-react";
 import { iconsColor } from "../../../Global/colors";
 import { SideBarHelperFunction } from "../../../Helper/SideBarHelper/SideBarHelperFunction";
 import {
-  AppContextGetterProvider,
-  AppContextSetterProvider,
-} from "../../../Context/AppContext";
+  SideBarContextGetterProvider,
+  SideBarContextSetterProvider,
+} from "../../../Context/SideBarContext";
 import GeneralOption from "../../SideBar/SettingsOptions/GeneralOption";
 import PersonalizationOption from "../../SideBar/SettingsOptions/PersonalizationOption";
+import DataControls from "../../SideBar/SettingsOptions/DataControls";
+import ProfileBuilder from "../../SideBar/SettingsOptions/ProfileBuilder";
 
 const SettingsModalData = ({ onClose }) => {
-  const { sideBarOptionsActiveMenu } = useContext(AppContextGetterProvider);
-  const { getSideBarOptionsActiveMenu } = useContext(AppContextSetterProvider);
+  const { sideBarOptionsActiveMenu } = useContext(SideBarContextGetterProvider);
+  const { setSideBarOptionsActiveMenu } = useContext(SideBarContextSetterProvider);
   const [settingsOptions, setSettingsOptions] = useState([
     SideBarHelperFunction(),
   ]);
 
   return (
-    <div>
+    <>
       <div className="flex justify-between items-center m-5">
         <h1 className="text-neutral-700 text-xl font-semibold">
           {sideBarText.SETTINGS_LABEL}
@@ -44,7 +46,7 @@ const SettingsModalData = ({ onClose }) => {
                           ? "bg-neutral-100 rounded-lg w-fit"
                           : null
                       }`}
-                      onClick={() => getSideBarOptionsActiveMenu(option?.title)}
+                      onClick={() => setSideBarOptionsActiveMenu(option?.title)}
                     >
                       <p>{option?.icon}</p>
                       <li className="text-neutral-600 px-3">{option?.title}</li>
@@ -62,9 +64,15 @@ const SettingsModalData = ({ onClose }) => {
           {sideBarOptionsActiveMenu === sideBarText.PERSONALIZATION_LABEL && (
             <PersonalizationOption />
           )}
+          {sideBarOptionsActiveMenu === sideBarText.DATA_CONTROL_LABEL && (
+            <DataControls />
+          )}
+          {sideBarOptionsActiveMenu === sideBarText.BUILDER_PROFILE_LABEL && (
+            <ProfileBuilder />
+          )}
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

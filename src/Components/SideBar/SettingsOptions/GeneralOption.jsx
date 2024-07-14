@@ -46,13 +46,13 @@ const GeneralOption = () => {
                   <div className="border-b border-neutral-300 my-4" />
                   <div
                     className={`${
-                      !isThemeSelected &&
+                      isThemeSelected &&
                       generalOption?.title === sideBarText.THEME_LABEL
                         ? "bg-white shadow-lg rounded-xl p-2"
                         : null
                     } fixed right-7 top-1/2 mt-7 w-52`}
                   >
-                    {!isThemeSelected &&
+                    {isThemeSelected &&
                       generalOption?.title === sideBarText.THEME_LABEL &&
                       generalOption?.theme_name?.map((theme) => {
                         return (
