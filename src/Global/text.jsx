@@ -55,8 +55,13 @@ const sideBarText = {
   PROFILE_LABEL: "Profile",
 };
 
+const homeText = {
+  SEARCH_BAR_PLACEHOLDER: "Search your task...",
+  CREATE_NEW_TODO: "Create new task",
+};
+
 const createTodoText = {
   BUTTON_NAME: "+ | Create New Todo",
 };
 
-export { commonText, signUpText, signinText, sideBarText, createTodoText };
+export { commonText, signUpText, signinText, sideBarText, createTodoText, homeText };

@@ -2,6 +2,14 @@ import { useContext } from "react";
 import Menu from "../Components/Menu/Menu";
 import Sidebar from "../Components/SideBar/Sidebar";
 import { SideBarContextGetterProvider } from "../Context/SideBarContext";
+import SubPageHeader from "../Components/Header/SubPageHeader";
+import SearchFilter from "../Components/Filters/SearchFilter";
+import { sideBarText } from "../Global/text";
+import DateFilter from "../Components/Filters/DateFilter";
+import CreateTodoButton from "../Components/Buttons/CreateTodo/CreateTodoButton";
+import UpcomingTodos from "../Components/Sections/UpcomingTodos";
+import UserPerformance from "../Components/Sections/UserPerformance";
+import TodosTable from "../Components/Tables/TodosTable";
 
 const Home = () => {
   const { activeMenu, isSideBarClosed } = useContext(
@@ -16,9 +24,38 @@ const Home = () => {
         <Sidebar />
       </div>
       <div
-        className={`${isSideBarClosed == true ? "col-span-11" : "col-span-10"}`}
+        className={`${
+          isSideBarClosed == true ? "col-span-11" : "col-span-10"
+        } mx-4 m-4`}
       >
-        <Menu title={activeMenu} />
+        <div className="flex justify-between items-start">
+          <Menu title={activeMenu} />
+          <SubPageHeader />
+        </div>
+        {activeMenu === sideBarText.HOME_LABEL && (
+          <div>
+            <div className="flex justify-between items-center mt-10">
+              <div className="flex justify-start items-center">
+                <SearchFilter />
+                <DateFilter />
+              </div>
+              <>
+                <CreateTodoButton />
+              </>
+            </div>
+            <div className="grid grid-flow-row grid-cols-12 mt-10">
+              <div className="col-span-6">
+                <UpcomingTodos />
+              </div>
+              <div className="col-span-6">
+                <UserPerformance />
+              </div>
+            </div>
+            <div className="mt-5">
+              <TodosTable />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
