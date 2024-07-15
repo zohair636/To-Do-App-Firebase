@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Menu from "../Components/Menu/Menu";
 import Sidebar from "../Components/SideBar/Sidebar";
 import { SideBarContextGetterProvider } from "../Context/SideBarContext";
@@ -10,11 +10,14 @@ import CreateTodoButton from "../Components/Buttons/CreateTodo/CreateTodoButton"
 import UpcomingTodos from "../Components/Sections/UpcomingTodos";
 import UserPerformance from "../Components/Sections/UserPerformance";
 import TodosTable from "../Components/Tables/TodosTable";
+import CreateTodoModal from "../Components/Modal/TodoModal/CreateTodoModal";
+import CreateTodoModalData from "../Components/Modal/TodoModal/CreateTodoModalData";
 
 const Home = () => {
   const { activeMenu, isSideBarClosed } = useContext(
     SideBarContextGetterProvider
   );
+  const [openTodoModal, setOpenTodoModal] = useState(false);
 
   return (
     <div className="bg-neutral-50 absolute top-0 bottom-0 left-0 right-0 grid grid-flow-row grid-cols-12">
@@ -40,7 +43,7 @@ const Home = () => {
                 <DateFilter />
               </div>
               <>
-                <CreateTodoButton />
+                <CreateTodoButton onClick={() => setOpenTodoModal(true)} />
               </>
             </div>
             <div className="grid grid-flow-row grid-cols-12 mt-10">
@@ -57,6 +60,12 @@ const Home = () => {
           </div>
         )}
       </div>
+      <CreateTodoModal
+        visible={openTodoModal}
+        onClose={() => setOpenTodoModal(false)}
+      >
+        <CreateTodoModalData />
+      </CreateTodoModal>
     </div>
   );
 };

@@ -58,10 +58,29 @@ const sideBarText = {
 const homeText = {
   SEARCH_BAR_PLACEHOLDER: "Search your task...",
   CREATE_NEW_TODO: "Create new task",
+  TABLE_TODO_LABEL: "Todo",
+  TABLE_DESCRIPTION_LABEL: "Description",
+  TABLE_STATUS_LABEL: "Status",
+  TABLE_CREATED_BY_LABEL: "Created by",
+  TABLE_ACTIONS_LABEL: "Actions",
+  CREATE_NEW_TODO_LABEL: "Create new task",
+  TASK_NAME_LABEL: "Task Name",
+  TASK_NAME_PLACEHOLDER: "Enter your task name",
+  TASK_DESCRIPTION_LABEL: "Description",
+  TASK_DESCRIPTION_PLACEHOLDER: "Enter your task description",
+  CREATE_TODO_LABEL: "Create Todo",
+  CANCEL_LABEL: "Cancel",
 };
 
 const createTodoText = {
   BUTTON_NAME: "+ | Create New Todo",
 };
 
-export { commonText, signUpText, signinText, sideBarText, createTodoText, homeText };
+export {
+  commonText,
+  signUpText,
+  signinText,
+  sideBarText,
+  createTodoText,
+  homeText,
+};
