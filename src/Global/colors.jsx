@@ -5,6 +5,8 @@ const formColors = {
 
 const iconsColor = {
   ACTIVE_ICON_COLOR: "#707B7C",
+  UPDATE_ICON_COLOR: '#2E86C1',
+  DELETE_ICON_COLOR: '#CB4335',
 }
 
 export { formColors, iconsColor };

@@ -32,8 +32,12 @@ const Home = () => {
         } mx-4 m-4`}
       >
         <div className="flex justify-between items-start">
-          <Menu title={activeMenu} />
-          <SubPageHeader />
+          {activeMenu === sideBarText.SETTINGS_LABEL ? null : (
+            <>
+              <Menu title={activeMenu} />
+              <SubPageHeader />
+            </>
+          )}
         </div>
         {activeMenu === sideBarText.HOME_LABEL && (
           <div>
