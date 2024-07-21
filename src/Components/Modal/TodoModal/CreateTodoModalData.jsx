@@ -32,9 +32,10 @@ const CreateTodoModalData = () => {
   const handleNewTodo = () => {
     const title = newTodo[0].value;
     const description = newTodo[1].value;
+    const completed = false
     setCreateNewTodo((prev) => [
       ...prev,
-      { title: title, description: description },
+      { title: title, description: description, completed: completed },
     ]);
   };
 

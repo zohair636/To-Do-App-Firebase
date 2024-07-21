@@ -4,6 +4,10 @@ const TableHeaderFunction = () => {
   return [
     {
       id: crypto.randomUUID(),
+      title: homeText.SERIAL_NUMBER,
+    },
+    {
+      id: crypto.randomUUID(),
       title: homeText.TABLE_TODO_LABEL,
     },
     {

@@ -58,6 +58,7 @@ const sideBarText = {
 const homeText = {
   SEARCH_BAR_PLACEHOLDER: "Search your task...",
   CREATE_NEW_TODO: "Create new task",
+  SERIAL_NUMBER: "Sr #",
   TABLE_TODO_LABEL: "Todo",
   TABLE_DESCRIPTION_LABEL: "Description",
   TABLE_STATUS_LABEL: "Status",
@@ -72,6 +73,10 @@ const homeText = {
   CANCEL_LABEL: "Cancel",
 };
 
+const buttonText = {
+  DELETE_BUTTON: "Delete",
+};
+
 const createTodoText = {
   BUTTON_NAME: "+ | Create New Todo",
 };
@@ -83,4 +88,5 @@ export {
   sideBarText,
   createTodoText,
   homeText,
+  buttonText,
 };
