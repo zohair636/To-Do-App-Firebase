@@ -5,10 +5,11 @@ const HomeGetterContext = createContext();
 
 const HomeContext = ({ children }) => {
   const [createNewTodo, setCreateNewTodo] = useState([]);
-  
+  const [searchTodo, setSearchTodo] = useState('');
+
   return (
-    <HomeSetterContext.Provider value={{ setCreateNewTodo }}>
-      <HomeGetterContext.Provider value={{ createNewTodo }}>
+    <HomeSetterContext.Provider value={{ setCreateNewTodo, setSearchTodo }}>
+      <HomeGetterContext.Provider value={{ createNewTodo, searchTodo }}>
         {children}
       </HomeGetterContext.Provider>
     </HomeSetterContext.Provider>

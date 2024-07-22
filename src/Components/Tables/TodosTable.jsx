@@ -8,12 +8,15 @@ import { Circle, CircleCheck, PencilLine, Trash } from "lucide-react";
 import { iconsColor } from "../../Global/colors";
 import DeleteTodoModal from "../Modal/DeleteModal/DeleteTodoModal/DeleteTodoModal";
 import DeleteTodoModalData from "../Modal/DeleteModal/DeleteTodoModal/DeleteTodoModalData";
+import UpdateTodoModal from "../Modal/UpdateModal/UpdateTodoModal/UpdateTodoModal";
+import UpdateTodoModalData from "../Modal/UpdateModal/UpdateTodoModal/UpdateTodoModalData";
 
 const TodosTable = () => {
   const tableHeaderData = TableHeaderFunction();
-  const { createNewTodo } = useContext(HomeGetterContext);
+  const { createNewTodo, searchTodo } = useContext(HomeGetterContext);
   const { setCreateNewTodo } = useContext(HomeSetterContext);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState([false, false, false]);
+  const [deleteTodoIndex, setDeleteTodoIndex] = useState("");
 
   const handleCompleteTodo = useCallback(
     (index) => {
@@ -38,9 +41,21 @@ const TodosTable = () => {
     setCreateNewTodo((prev) => {
       const removeTodo = [...prev];
       removeTodo.splice(index, 1);
+      handleModalOpen(1, false);
       return removeTodo;
     });
   };
+
+  const handleModalOpen = (index, modal) => {
+    setIsModalOpen((prev) => ({
+      ...prev,
+      [index]: modal,
+    }));
+  };
+
+  const todoSearchFilter = createNewTodo.filter((todo) =>
+    todo?.title.toLowerCase().includes(searchTodo.toLowerCase())
+  );
 
   return (
     <div className="border-2 border-neutral-200 rounded-2xl overflow-hidden">
@@ -60,8 +75,8 @@ const TodosTable = () => {
           </tr>
         </thead>
         <tbody>
-          {createNewTodo.length > 0 ? (
-            createNewTodo.map((todo, index) => (
+          {todoSearchFilter.length > 0 ? (
+            todoSearchFilter.map((todo, index) => (
               <tr
                 key={crypto.randomUUID()}
                 className={`border-t ${
@@ -88,12 +103,16 @@ const TodosTable = () => {
                     size={15}
                     color={iconsColor.UPDATE_ICON_COLOR}
                     className="mx-1 cursor-pointer"
+                    onClick={() => handleModalOpen(0, true)}
                   />
                   <Trash
                     size={15}
                     color={iconsColor.DELETE_ICON_COLOR}
                     className="mx-1 cursor-pointer"
-                    onClick={() => setIsDeleteModalOpen(true)}
+                    onClick={() => {
+                      handleModalOpen(1, true);
+                      setDeleteTodoIndex(index);
+                    }}
                   />
                   {todo?.completed ? (
                     <CircleCheck
@@ -124,12 +143,23 @@ const TodosTable = () => {
           )}
         </tbody>
       </table>
-      <DeleteTodoModal
-        visible={isDeleteModalOpen}
-        onClose={() => setIsDeleteModalOpen(false)}
+      {isModalOpen[1] && (
+        <DeleteTodoModal
+          visible={isModalOpen[1]}
+          onClose={() => handleModalOpen(1, false)}
+        >
+          <DeleteTodoModalData
+            onClose={() => handleModalOpen(1, false)}
+            submit={() => handleRemoveTodo(deleteTodoIndex)}
+          />
+        </DeleteTodoModal>
+      )}
+      <UpdateTodoModal
+        visible={isModalOpen[0]}
+        onClose={() => handleModalOpen(0, false)}
       >
-        <DeleteTodoModalData onClose={() => setIsDeleteModalOpen(false)} />
-      </DeleteTodoModal>
+        <UpdateTodoModalData />
+      </UpdateTodoModal>
     </div>
   );
 };

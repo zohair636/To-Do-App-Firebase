@@ -5,7 +5,7 @@ import CancelButton from "../../Buttons/Cancel/CancelButton";
 import CreateNewTodoButton from "../../Buttons/CreateTodo/CreateNewTodoButton";
 import { HomeSetterContext } from "../../../Context/HomeContext";
 
-const CreateTodoModalData = () => {
+const CreateTodoModalData = ({onClose}) => {
   const [newTodo, setNewTodo] = useState(CreateTodoHelperFunction());
   const textAreaRef = useRef(null);
   const { setCreateNewTodo } = useContext(HomeSetterContext);
@@ -37,6 +37,7 @@ const CreateTodoModalData = () => {
       ...prev,
       { title: title, description: description, completed: completed },
     ]);
+      onClose()
   };
 
   return (
@@ -76,7 +77,7 @@ const CreateTodoModalData = () => {
           );
         })}
         <div className="flex justify-between items-center mx-7 mt-5 mb-5">
-          <CancelButton />
+          <CancelButton onClick={onClose} />
           <CreateNewTodoButton onClick={handleNewTodo} />
         </div>
       </div>

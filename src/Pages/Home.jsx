@@ -20,17 +20,11 @@ const Home = () => {
   const [openTodoModal, setOpenTodoModal] = useState(false);
 
   return (
-    <div className="bg-neutral-50 absolute top-0 bottom-0 left-0 right-0 grid grid-flow-row grid-cols-12">
-      <div
-        className={`${isSideBarClosed === true ? "col-span-1" : "col-span-2"}`}
-      >
+    <div className="bg-neutral-50 absolute top-0 bottom-0 left-0 right-0 flex">
+      <div className={`flex-shrink-0 ${isSideBarClosed ? "w-28" : "w-64"}`}>
         <Sidebar />
       </div>
-      <div
-        className={`${
-          isSideBarClosed == true ? "col-span-11" : "col-span-10"
-        } mx-4 m-4`}
-      >
+      <div className="flex-grow p-4">
         <div className="flex justify-between items-start">
           {activeMenu === sideBarText.SETTINGS_LABEL ? null : (
             <>
@@ -41,20 +35,20 @@ const Home = () => {
         </div>
         {activeMenu === sideBarText.HOME_LABEL && (
           <div>
-            <div className="flex justify-between items-center mt-10">
+            <div className="flex flex-wrap justify-between items-center mt-10">
               <div className="flex justify-start items-center">
                 <SearchFilter />
                 <DateFilter />
               </div>
-              <>
+              <div className="mt-2">
                 <CreateTodoButton onClick={() => setOpenTodoModal(true)} />
-              </>
+              </div>
             </div>
-            <div className="grid grid-flow-row grid-cols-12 mt-10">
-              <div className="col-span-6">
+            <div className="grid grid-flow-row grid-cols-12 lg:gap-1 gap-4 mt-10">
+              <div className="md:col-span-6 col-span-12">
                 <UpcomingTodos />
               </div>
-              <div className="col-span-6">
+              <div className="md:col-span-6 col-span-12">
                 <UserPerformance />
               </div>
             </div>
@@ -68,7 +62,7 @@ const Home = () => {
         visible={openTodoModal}
         onClose={() => setOpenTodoModal(false)}
       >
-        <CreateTodoModalData />
+        <CreateTodoModalData onClose={() => setOpenTodoModal(false)} />
       </CreateTodoModal>
     </div>
   );
