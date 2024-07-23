@@ -1,4 +1,3 @@
-import React from "react";
 import { homeText } from "../../../Global/text";
 
 const CreateTodoButton = ({ onClick }) => {

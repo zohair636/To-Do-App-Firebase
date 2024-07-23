@@ -1,14 +1,15 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useMemo, useRef, useState } from "react";
 import { homeText } from "../../../Global/text";
 import { CreateTodoHelperFunction } from "../../../Helper/TodoHelper/TodoHelper";
 import CancelButton from "../../Buttons/Cancel/CancelButton";
 import CreateNewTodoButton from "../../Buttons/CreateTodo/CreateNewTodoButton";
 import { HomeSetterContext } from "../../../Context/HomeContext";
 
-const CreateTodoModalData = ({onClose}) => {
+const CreateTodoModalData = ({ onClose }) => {
   const [newTodo, setNewTodo] = useState(CreateTodoHelperFunction());
   const textAreaRef = useRef(null);
-  const { setCreateNewTodo } = useContext(HomeSetterContext);
+  const { setCreateNewTodo, setFetchTodo } = useContext(HomeSetterContext);
+  const [countWords, setCountWords] = useState(0);
 
   useEffect(() => {
     if (textAreaRef.current) {
@@ -22,23 +23,36 @@ const CreateTodoModalData = ({onClose}) => {
   }, [newTodo]);
 
   const handleChange = (e, index) => {
-    setNewTodo((prev) => {
-      const newInput = [...prev];
-      newInput[index].value = e.target.value;
-      return newInput;
-    });
+    // setNewTodo((prev) => {
+    //   const newInput = [...prev];
+    //   newInput[index].value = e.target.value;
+    //   console.log('new todo', newInput);
+    //   return newInput;
+    // });
+    const newInput = [...newTodo];
+    newInput[index].value = e.target.value;
+    setNewTodo(newInput);
+    setFetchTodo(newInput);
   };
 
   const handleNewTodo = () => {
     const title = newTodo[0].value;
     const description = newTodo[1].value;
-    const completed = false
+    const completed = false;
     setCreateNewTodo((prev) => [
       ...prev,
       { title: title, description: description, completed: completed },
     ]);
-      onClose()
+    onClose();
   };
+
+  useEffect(() => {
+    if(newTodo[1]?.value.length <= 100){
+      setCountWords((prev) => prev + 1)
+    } else {
+      setCountWords(0)
+    }
+  }, [newTodo])
 
   return (
     <div>
@@ -65,13 +79,16 @@ const CreateTodoModalData = ({onClose}) => {
                   className="outline-none border border-neutral-200 p-1.5 px-3 mt-1 rounded-lg w-full"
                 />
               ) : (
-                <textarea
-                  value={items?.value}
-                  onChange={(e) => handleChange(e, index)}
-                  placeholder={items?.placeholder}
-                  ref={textAreaRef}
-                  className="outline-none border border-neutral-200 p-1.5 px-3 mt-1 rounded-lg w-full h-20 min-h-20 max-h-52 resize-none overflow-hidden overflow-y-auto"
-                ></textarea>
+                <div className="flex flex-col justify-end items-end w-full">
+                  <textarea
+                    value={items?.value}
+                    onChange={(e) => handleChange(e, index)}
+                    placeholder={items?.placeholder}
+                    ref={textAreaRef}
+                    className="outline-none border border-neutral-200 p-1.5 px-3 mt-1 rounded-lg w-full h-20 min-h-20 max-h-52 resize-none overflow-hidden overflow-y-auto"
+                  ></textarea>
+                  <p className="text-neutral-400 text-sm mt-1">{`${countWords} /100`}</p>
+                </div>
               )}
             </div>
           );

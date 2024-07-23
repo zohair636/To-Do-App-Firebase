@@ -75,6 +75,7 @@ const homeText = {
 
 const buttonText = {
   DELETE_BUTTON: "Delete",
+  UPDATE_BUTTON: "Update",
 };
 
 const createTodoText = {

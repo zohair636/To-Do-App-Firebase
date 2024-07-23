@@ -13,10 +13,12 @@ import UpdateTodoModalData from "../Modal/UpdateModal/UpdateTodoModal/UpdateTodo
 
 const TodosTable = () => {
   const tableHeaderData = TableHeaderFunction();
-  const { createNewTodo, searchTodo } = useContext(HomeGetterContext);
-  const { setCreateNewTodo } = useContext(HomeSetterContext);
+  const { createNewTodo, searchTodo } =
+    useContext(HomeGetterContext);
+  const { setCreateNewTodo, setFetchTodo } = useContext(HomeSetterContext);
   const [isModalOpen, setIsModalOpen] = useState([false, false, false]);
   const [deleteTodoIndex, setDeleteTodoIndex] = useState("");
+  const [updateIndex, setUpdateIndex] = useState("");
 
   const handleCompleteTodo = useCallback(
     (index) => {
@@ -34,6 +36,15 @@ const TodosTable = () => {
       const unCheckCompletedTodo = [...prev];
       unCheckCompletedTodo[index].completed = false;
       return unCheckCompletedTodo;
+    });
+  };
+
+  const handleUpdateTodo = (e, index) => {
+    setFetchTodo((prev) => {
+      const updatedTodo = [...prev];
+      updatedTodo[index].value = e.target.value;
+      console.log("updateTodo", updatedTodo);
+      return updatedTodo;
     });
   };
 
@@ -103,7 +114,10 @@ const TodosTable = () => {
                     size={15}
                     color={iconsColor.UPDATE_ICON_COLOR}
                     className="mx-1 cursor-pointer"
-                    onClick={() => handleModalOpen(0, true)}
+                    onClick={() => {
+                      handleModalOpen(0, true);
+                      setUpdateIndex(index);
+                    }}
                   />
                   <Trash
                     size={15}
@@ -143,6 +157,14 @@ const TodosTable = () => {
           )}
         </tbody>
       </table>
+      {isModalOpen[0] && (
+        <UpdateTodoModal
+          visible={isModalOpen[0]}
+          onClose={() => handleModalOpen(0, false)}
+        >
+          <UpdateTodoModalData onClose={() => handleModalOpen(0, false)} />
+        </UpdateTodoModal>
+      )}
       {isModalOpen[1] && (
         <DeleteTodoModal
           visible={isModalOpen[1]}
@@ -154,12 +176,6 @@ const TodosTable = () => {
           />
         </DeleteTodoModal>
       )}
-      <UpdateTodoModal
-        visible={isModalOpen[0]}
-        onClose={() => handleModalOpen(0, false)}
-      >
-        <UpdateTodoModalData />
-      </UpdateTodoModal>
     </div>
   );
 };
