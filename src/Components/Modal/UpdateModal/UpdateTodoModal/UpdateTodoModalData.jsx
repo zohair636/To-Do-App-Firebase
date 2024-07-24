@@ -7,7 +7,7 @@ import {
   HomeSetterContext,
 } from "../../../../Context/HomeContext";
 
-const UpdateTodoModalData = ({ onClose }) => {
+const UpdateTodoModalData = ({ onClose, title, description }) => {
   const { fetchTodo } = useContext(HomeGetterContext);
   const { setFetchTodo, setCreateNewTodo } = useContext(HomeSetterContext);
   const textAreaRef = useRef(null);
@@ -26,7 +26,6 @@ const UpdateTodoModalData = ({ onClose }) => {
     setFetchTodo((prev) => {
       const updatedTodo = [...prev];
       updatedTodo[index].value = e.target.value;
-      console.log("updateTodo", updatedTodo);
       return updatedTodo;
     });
   };
@@ -61,14 +60,14 @@ const UpdateTodoModalData = ({ onClose }) => {
               </label>
               {items?.title === homeText.TASK_NAME_LABEL ? (
                 <input
-                  value={items?.value}
+                  value={title ? title : items?.value}
                   onChange={(e) => handleUpdateTodo(e, index)}
                   placeholder={items?.placeholder}
                   className="outline-none border border-neutral-200 p-1.5 px-3 mt-1 rounded-lg w-full"
                 />
               ) : (
                 <textarea
-                  value={items?.value}
+                  value={description ? description : items?.value}
                   onChange={(e) => handleUpdateTodo(e, index)}
                   placeholder={items?.placeholder}
                   ref={textAreaRef}

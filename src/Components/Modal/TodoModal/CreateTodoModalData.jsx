@@ -10,6 +10,7 @@ const CreateTodoModalData = ({ onClose }) => {
   const textAreaRef = useRef(null);
   const { setCreateNewTodo, setFetchTodo } = useContext(HomeSetterContext);
   const [countWords, setCountWords] = useState(0);
+  const maxChars = 100;
 
   useEffect(() => {
     if (textAreaRef.current) {
@@ -23,16 +24,15 @@ const CreateTodoModalData = ({ onClose }) => {
   }, [newTodo]);
 
   const handleChange = (e, index) => {
-    // setNewTodo((prev) => {
-    //   const newInput = [...prev];
-    //   newInput[index].value = e.target.value;
-    //   console.log('new todo', newInput);
-    //   return newInput;
-    // });
     const newInput = [...newTodo];
     newInput[index].value = e.target.value;
-    setNewTodo(newInput);
     setFetchTodo(newInput);
+    if (newInput[1].value.length > maxChars) {
+      return false;
+    } else if (newInput[1].value.length < maxChars) {
+      setNewTodo(newInput);
+      setCountWords(newInput[1].value.length);
+    }
   };
 
   const handleNewTodo = () => {
@@ -45,14 +45,6 @@ const CreateTodoModalData = ({ onClose }) => {
     ]);
     onClose();
   };
-
-  useEffect(() => {
-    if(newTodo[1]?.value.length <= 100){
-      setCountWords((prev) => prev + 1)
-    } else {
-      setCountWords(0)
-    }
-  }, [newTodo])
 
   return (
     <div>
@@ -87,7 +79,7 @@ const CreateTodoModalData = ({ onClose }) => {
                     ref={textAreaRef}
                     className="outline-none border border-neutral-200 p-1.5 px-3 mt-1 rounded-lg w-full h-20 min-h-20 max-h-52 resize-none overflow-hidden overflow-y-auto"
                   ></textarea>
-                  <p className="text-neutral-400 text-sm mt-1">{`${countWords} /100`}</p>
+                  <p className="text-neutral-400 text-sm mt-1">{`${countWords} /${maxChars}`}</p>
                 </div>
               )}
             </div>

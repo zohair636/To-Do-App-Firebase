@@ -13,8 +13,7 @@ import UpdateTodoModalData from "../Modal/UpdateModal/UpdateTodoModal/UpdateTodo
 
 const TodosTable = () => {
   const tableHeaderData = TableHeaderFunction();
-  const { createNewTodo, searchTodo } =
-    useContext(HomeGetterContext);
+  const { createNewTodo, searchTodo, dateFilter } = useContext(HomeGetterContext);
   const { setCreateNewTodo, setFetchTodo } = useContext(HomeSetterContext);
   const [isModalOpen, setIsModalOpen] = useState([false, false, false]);
   const [deleteTodoIndex, setDeleteTodoIndex] = useState("");
@@ -162,7 +161,11 @@ const TodosTable = () => {
           visible={isModalOpen[0]}
           onClose={() => handleModalOpen(0, false)}
         >
-          <UpdateTodoModalData onClose={() => handleModalOpen(0, false)} />
+          <UpdateTodoModalData
+            onClose={() => handleModalOpen(0, false)}
+            title={createNewTodo[updateIndex]?.title}
+            description={createNewTodo[updateIndex]?.description}
+          />
         </UpdateTodoModal>
       )}
       {isModalOpen[1] && (
