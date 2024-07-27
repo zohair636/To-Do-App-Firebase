@@ -53,6 +53,9 @@ const sideBarText = {
   FACEBOOK_LABEL: "Facebook",
   ADD_LABEL: "Add",
   PROFILE_LABEL: "Profile",
+  PRIORITY_LABEL: "Priority",
+  LOW_PRIORITY_LABEL: "Low Priority",
+  HIGH_PRIORITY_LABEL: "High Priority",
 };
 
 const homeText = {
@@ -76,6 +79,7 @@ const homeText = {
 const buttonText = {
   DELETE_BUTTON: "Delete",
   UPDATE_BUTTON: "Update",
+  SAVE_BUTTON: "Save",
 };
 
 const createTodoText = {

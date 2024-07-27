@@ -4,8 +4,10 @@ import ReactDOM from "react-dom";
 const SettingsModal = ({ visible, children, onClose }) => {
   useEffect(() => {
     document.body.style.overflowY = visible ? "hidden" : "scroll";
+    document.body.style.overflowX = visible ? "hidden" : "scroll";
     return () => {
       document.body.style.overflowY = "scroll";
+      document.body.style.overflowX = "scroll";
     };
   }, [visible]);
 
@@ -18,7 +20,7 @@ const SettingsModal = ({ visible, children, onClose }) => {
         onClick={onClose}
       />
       <div
-        className="fixed z-50 bg-white md:w-6/12 w-96 h-[60vh] max-h-[70vh] overflow-hidden rounded-3xl"
+        className="fixed z-50 bg-white md:w-[48rem] sm:w-[40rem] w-11/12 h-[65vh] max-h-[70vh] overflow-hidden rounded-3xl"
         style={{ top: "50%", left: "50%", transform: `translate(-50%, -50%)` }}
       >
         {children}

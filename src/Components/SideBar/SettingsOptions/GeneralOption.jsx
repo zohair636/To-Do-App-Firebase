@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { SideBarHelperFunction } from "../../../Helper/SideBarHelper/SideBarHelperFunction";
 import { sideBarText } from "../../../Global/text";
 import { CircleCheck } from "lucide-react";
@@ -23,10 +23,10 @@ const GeneralOption = () => {
     <div className="mx-7 my-5">
       {generalOptions?.setting?.options?.map((option) => {
         return (
-          <div key={option?.id}>
+          <Fragment key={option?.id}>
             {option?.general?.map((generalOption) => {
               return (
-                <div key={generalOption?.id}>
+                <Fragment key={generalOption?.id}>
                   {generalOption?.title === sideBarText.THEME_LABEL ? (
                     <div className="flex justify-between items-center">
                       <p>{generalOption?.title}</p>
@@ -35,7 +35,11 @@ const GeneralOption = () => {
                         onClick={handleThemeSelection}
                       >
                         <p className="text-neutral-600 px-1">{selectedTheme}</p>
-                        <p>{generalOption?.icon}</p>
+                        <p>
+                          {isThemeSelected
+                            ? generalOption?.icon_close
+                            : generalOption?.icon_open}
+                        </p>
                       </div>
                     </div>
                   ) : (
@@ -48,9 +52,9 @@ const GeneralOption = () => {
                     className={`${
                       isThemeSelected &&
                       generalOption?.title === sideBarText.THEME_LABEL
-                        ? "bg-white shadow-lg rounded-xl p-2"
+                        ? "bg-white border shadow-lg rounded-xl p-2"
                         : null
-                    } fixed right-7 top-1/2 mt-7 w-52`}
+                    } fixed right-7 md:top-1/2 top-64 mt-7 w-52`}
                   >
                     {isThemeSelected &&
                       generalOption?.title === sideBarText.THEME_LABEL &&
@@ -59,7 +63,10 @@ const GeneralOption = () => {
                           <div
                             key={theme?.id}
                             className="flex justify-between items-center my-2 hover:bg-neutral-100 rounded-lg p-1 px-3 cursor-pointer"
-                            onClick={() => handleSelectTheme(theme?.title)}
+                            onClick={() => {
+                              handleSelectTheme(theme?.title);
+                              handleThemeSelection();
+                            }}
                           >
                             <ul className="flex justify-start items-center">
                               <p className="mr-4">{theme?.icon}</p>
@@ -77,10 +84,10 @@ const GeneralOption = () => {
                         );
                       })}
                   </div>
-                </div>
+                </Fragment>
               );
             })}
-          </div>
+          </Fragment>
         );
       })}
     </div>

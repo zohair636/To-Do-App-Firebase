@@ -19,6 +19,7 @@ import {
   Github,
   Linkedin,
   Twitter,
+  ChevronUp,
 } from "lucide-react";
 import { commonText, sideBarText } from "../../Global/text";
 import { iconsColor } from "../../Global/colors";
@@ -91,8 +92,11 @@ const SideBarHelperFunction = () => ({
           {
             id: crypto.randomUUID(),
             title: sideBarText.THEME_LABEL,
-            icon: (
+            icon_open: (
               <ChevronDown size={defaultIconSize} color={defaultIconColor} />
+            ),
+            icon_close: (
+              <ChevronUp size={defaultIconSize} color={defaultIconColor} />
             ),
             theme_name: [
               {
@@ -114,6 +118,28 @@ const SideBarHelperFunction = () => ({
                 id: crypto.randomUUID(),
                 title: sideBarText.LIGHT_THEME_LABEL,
                 icon: <Sun size={defaultIconSize} color={defaultIconColor} />,
+              },
+            ],
+          },
+        ],
+        personalize: [
+          {
+            id: crypto.randomUUID(),
+            title: sideBarText.PRIORITY_LABEL,
+            icon_open: (
+              <ChevronDown size={defaultIconSize} color={defaultIconColor} />
+            ),
+            icon_close: (
+              <ChevronUp size={defaultIconSize} color={defaultIconColor} />
+            ),
+            upcoming_todos: [
+              {
+                id: crypto.randomUUID(),
+                title: sideBarText.LOW_PRIORITY_LABEL,
+              },
+              {
+                id: crypto.randomUUID(),
+                title: sideBarText.HIGH_PRIORITY_LABEL,
               },
             ],
           },
