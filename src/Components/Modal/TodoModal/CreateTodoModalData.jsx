@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { homeText } from "../../../Global/text";
 import { CreateTodoHelperFunction } from "../../../Helper/TodoHelper/TodoHelper";
 import CancelButton from "../../Buttons/Cancel/CancelButton";
@@ -39,9 +39,15 @@ const CreateTodoModalData = ({ onClose }) => {
     const title = newTodo[0].value;
     const description = newTodo[1].value;
     const completed = false;
+    const date = new Date().toISOString().split("T")[0];
     setCreateNewTodo((prev) => [
       ...prev,
-      { title: title, description: description, completed: completed },
+      {
+        title: title,
+        description: description,
+        completed: completed,
+        date: date,
+      },
     ]);
     onClose();
   };

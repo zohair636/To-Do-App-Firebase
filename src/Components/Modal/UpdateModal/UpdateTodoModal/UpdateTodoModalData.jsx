@@ -7,8 +7,8 @@ import {
   HomeSetterContext,
 } from "../../../../Context/HomeContext";
 
-const UpdateTodoModalData = ({ onClose, title, description }) => {
-  const { fetchTodo } = useContext(HomeGetterContext);
+const UpdateTodoModalData = ({ onClose, title, description, onUpdate }) => {
+  const { fetchTodo, createNewTodo } = useContext(HomeGetterContext);
   const { setFetchTodo, setCreateNewTodo } = useContext(HomeSetterContext);
   const textAreaRef = useRef(null);
 
@@ -31,13 +31,14 @@ const UpdateTodoModalData = ({ onClose, title, description }) => {
   };
 
   const handleExistedTodo = () => {
-    const title = fetchTodo[0].value;
-    const description = fetchTodo[1].value;
-    const completed = false;
-    setCreateNewTodo((prev) => [
-      ...prev,
-      { title: title, description: description, completed: completed },
-    ]);
+    // const title = fetchTodo[0].value;
+    // const description = fetchTodo[1].value;
+    // const completed = false;
+    // setCreateNewTodo((prev) => [
+    //   ...prev,
+    //   { title: title, description: description, completed: completed },
+    // ]);
+    onUpdate()
     onClose();
   };
 
@@ -60,14 +61,14 @@ const UpdateTodoModalData = ({ onClose, title, description }) => {
               </label>
               {items?.title === homeText.TASK_NAME_LABEL ? (
                 <input
-                  value={title ? title : items?.value}
+                  value={items?.value}
                   onChange={(e) => handleUpdateTodo(e, index)}
                   placeholder={items?.placeholder}
                   className="outline-none border border-neutral-200 p-1.5 px-3 mt-1 rounded-lg w-full"
                 />
               ) : (
                 <textarea
-                  value={description ? description : items?.value}
+                  value={items?.value}
                   onChange={(e) => handleUpdateTodo(e, index)}
                   placeholder={items?.placeholder}
                   ref={textAreaRef}

@@ -10,14 +10,18 @@ import DeleteTodoModal from "../Modal/DeleteModal/DeleteTodoModal/DeleteTodoModa
 import DeleteTodoModalData from "../Modal/DeleteModal/DeleteTodoModal/DeleteTodoModalData";
 import UpdateTodoModal from "../Modal/UpdateModal/UpdateTodoModal/UpdateTodoModal";
 import UpdateTodoModalData from "../Modal/UpdateModal/UpdateTodoModal/UpdateTodoModalData";
+import { CreateTodoHelperFunction } from "../../Helper/TodoHelper/TodoHelper";
 
 const TodosTable = () => {
   const tableHeaderData = TableHeaderFunction();
-  const { createNewTodo, searchTodo, dateFilter } = useContext(HomeGetterContext);
+  const newTodo = CreateTodoHelperFunction();
+  const { createNewTodo, searchTodo, dateFilter, fetchTodo } =
+    useContext(HomeGetterContext);
   const { setCreateNewTodo, setFetchTodo } = useContext(HomeSetterContext);
-  const [isModalOpen, setIsModalOpen] = useState([false, false, false]);
+  const [isModalOpen, setIsModalOpen] = useState([false, false]);
   const [deleteTodoIndex, setDeleteTodoIndex] = useState("");
   const [updateIndex, setUpdateIndex] = useState("");
+  const [updateInput, setUpdateInput] = useState("");
 
   const handleCompleteTodo = useCallback(
     (index) => {
@@ -39,12 +43,11 @@ const TodosTable = () => {
   };
 
   const handleUpdateTodo = (e, index) => {
-    setFetchTodo((prev) => {
-      const updatedTodo = [...prev];
-      updatedTodo[index].value = e.target.value;
-      console.log("updateTodo", updatedTodo);
-      return updatedTodo;
-    });
+    const input = e.target.value
+    const updatedTodo = [...newTodo];
+    updatedTodo[index].value = input;
+    setFetchTodo(updatedTodo);
+    console.log('updated todo:  ', updatedTodo);
   };
 
   const handleRemoveTodo = (index) => {
@@ -63,9 +66,20 @@ const TodosTable = () => {
     }));
   };
 
-  const todoSearchFilter = createNewTodo.filter((todo) =>
-    todo?.title.toLowerCase().includes(searchTodo.toLowerCase())
-  );
+  const filterData = createNewTodo.filter((todo) => {
+    if (searchTodo && dateFilter) {
+      return (
+        todo?.title.toLowerCase().includes(searchTodo.toLowerCase()) &&
+        todo?.date === dateFilter
+      );
+    } else if (searchTodo) {
+      return todo?.title.toLowerCase().includes(searchTodo.toLowerCase());
+    } else if (dateFilter) {
+      return todo?.date === dateFilter;
+    } else {
+      return true;
+    }
+  });
 
   return (
     <div className="border-2 border-neutral-200 rounded-2xl overflow-hidden">
@@ -85,8 +99,8 @@ const TodosTable = () => {
           </tr>
         </thead>
         <tbody>
-          {todoSearchFilter.length > 0 ? (
-            todoSearchFilter.map((todo, index) => (
+          {filterData.length > 0 ? (
+            filterData.map((todo, index) => (
               <tr
                 key={crypto.randomUUID()}
                 className={`border-t ${
@@ -108,7 +122,7 @@ const TodosTable = () => {
                   </p>
                 </td>
                 <td className="p-2">Zohair</td>
-                <div className="flex justify-start items-center p-2">
+                <tr className="flex justify-start items-center p-2">
                   <PencilLine
                     size={15}
                     color={iconsColor.UPDATE_ICON_COLOR}
@@ -142,7 +156,7 @@ const TodosTable = () => {
                       onClick={() => handleCompleteTodo(index)}
                     />
                   )}
-                </div>
+                </tr>
               </tr>
             ))
           ) : (
@@ -165,6 +179,7 @@ const TodosTable = () => {
             onClose={() => handleModalOpen(0, false)}
             title={createNewTodo[updateIndex]?.title}
             description={createNewTodo[updateIndex]?.description}
+            onUpdate={() => handleUpdateTodo(updateInput, updateIndex)}
           />
         </UpdateTodoModal>
       )}
