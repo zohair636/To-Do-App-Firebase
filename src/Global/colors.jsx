@@ -1,6 +1,6 @@
 const formColors = {
-  EYE_OPEN_ICON_COLOR: "#A6ACAF",
-  EYE_CLOSE_ICON_COLOR: "#28B463"
+  EYE_OPEN_ICON_COLOR: "#BBB",
+  EYE_CLOSE_ICON_COLOR: "#2e86c1"
 };
 
 const iconsColor = {

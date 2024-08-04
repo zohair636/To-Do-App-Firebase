@@ -4,6 +4,7 @@ const commonText = {
 
 const signUpText = {
   TITLE: "Signup To Continue",
+  SUB_TITLE: 'Register your account',
   FULL_NAME_LABEL: "Full Name",
   EMAIL_LABEL: "Email",
   PASSWORD_LABEL: "Password",
@@ -11,6 +12,7 @@ const signUpText = {
   EMAIL_PLACEHOLDER: "Enter your email address",
   PASSWORD_PLACEHOLDER: "Enter your password",
   SIGNUP_BUTTON_LABEL: "Sign Up",
+  CREATE_ACCOUNT_WITH: 'Create account with',
   ALREADY_HAVE_AN_ACCOUNT: "Already have an account?",
   SIGNIN: "Signin",
 };
