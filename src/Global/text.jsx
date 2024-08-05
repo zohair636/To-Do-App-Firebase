@@ -4,7 +4,7 @@ const commonText = {
 
 const signUpText = {
   TITLE: "Signup To Continue",
-  SUB_TITLE: 'Register your account',
+  SUB_TITLE: "Register your account",
   FULL_NAME_LABEL: "Full Name",
   EMAIL_LABEL: "Email",
   PASSWORD_LABEL: "Password",
@@ -12,7 +12,7 @@ const signUpText = {
   EMAIL_PLACEHOLDER: "Enter your email address",
   PASSWORD_PLACEHOLDER: "Enter your password",
   SIGNUP_BUTTON_LABEL: "Sign Up",
-  CREATE_ACCOUNT_WITH: 'Create account with',
+  CREATE_ACCOUNT_WITH: "Create account with",
   ALREADY_HAVE_AN_ACCOUNT: "Already have an account?",
   SIGNIN: "Signin",
 };
@@ -88,6 +88,21 @@ const createTodoText = {
   BUTTON_NAME: "+ | Create New Todo",
 };
 
+const acknowledgeMessagesText = {
+  EMPTY_FIELD_ERROR: "Please fill all the required fields!",
+  INVALID_CREDENTIALS_ERROR: "Invalid credentials!",
+  SUCCESS_OK: "Your account created successfully!",
+  EXISTING_EMAIL_ERROR: "This email address already exists!",
+  INVALID_EMAIL_ADDRESS_ERROR: "Invalid email address!",
+  WEAK_PASSWORD_ERROR: "Please enter a strong password!",
+};
+
+const firebaseMessagesText = {
+  EMAIL_ALREADY_IN_USE: "auth/email-already-in-use",
+  INVALID_EMAIL: "auth/invalid-email",
+  WEAK_PASSWORD: "auth/weak-password",
+};
+
 export {
   commonText,
   signUpText,
@@ -96,4 +111,6 @@ export {
   createTodoText,
   homeText,
   buttonText,
+  acknowledgeMessagesText,
+  firebaseMessagesText,
 };

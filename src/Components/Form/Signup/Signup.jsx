@@ -1,25 +1,35 @@
-import { useContext, useState } from "react";
-import { signUpText } from "../../../Global/text";
+import { useContext, useEffect, useState } from "react";
+import {
+  acknowledgeMessagesText,
+  firebaseMessagesText,
+  signUpText,
+} from "../../../Global/text";
 import SignUpButton from "../../Buttons/Submit/SignUpButton";
 import SignInButton from "../../Buttons/Submit/SignInButton";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import app from "../../../Global/firebaseConfig";
-import { Eye, EyeOff } from "lucide-react";
-import { formColors } from "../../../Global/colors";
+import { Check, CircleAlert, Eye, EyeOff, TriangleAlert, X } from "lucide-react";
+import { formColors, iconsColor } from "../../../Global/colors";
 import { FormContextSetterProvider } from "../../../Context/FormContext";
 import AuthAsset from "../../../assets/auth-asset.png";
 import GoogleIcon from "../../../assets/google.png";
 import FaceBookIcon from "../../../assets/facebook.png";
 import LinkedInIcon from "../../../assets/linkedin.png";
 import { v4 as uuidv4 } from "uuid";
+import ErrorMessageToaster from "../../Toaster/ErrorMessageToaster";
+import SuccessMessageToaster from "../../Toaster/SuccessMessageToaster";
 
 const Signup = () => {
   const auth = getAuth();
   const iconSize = 15;
+  const minPasswordStrength = 6;
+  const medPasswordStrength = 10;
+  const maxPasswordStrength = 14;
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState("");
+  const [checkPasswordStrength, setCheckPasswordStrength] = useState("");
   const { getActiveForm } = useContext(FormContextSetterProvider);
   const [userInput, setUserInput] = useState([
     {
@@ -60,25 +70,49 @@ const Signup = () => {
     const password = userInput[2].value;
     if (!name || !email || !password) {
       setIsValid(true);
+      setMessage(acknowledgeMessagesText.EMPTY_FIELD_ERROR);
     }
     try {
       setIsLoading(true);
       await createUserWithEmailAndPassword(auth, email, password);
-      setMessage("Account Created Successfully!");
+      setMessage(acknowledgeMessagesText.SUCCESS_OK);
       setTimeout(() => {
         setMessage("");
       }, 2000);
     } catch (error) {
       console.log(error);
       setIsLoading(false);
-      setMessage("Email already in use!");
+      if (error.code === firebaseMessagesText.EMAIL_ALREADY_IN_USE) {
+        setMessage(acknowledgeMessagesText.EXISTING_EMAIL_ERROR);
+      }
+      if (error.code === firebaseMessagesText.INVALID_EMAIL) {
+        setMessage(acknowledgeMessagesText.INVALID_EMAIL_ADDRESS_ERROR);
+      }
+      if (error.code === firebaseMessagesText.WEAK_PASSWORD) {
+        setMessage(acknowledgeMessagesText.WEAK_PASSWORD_ERROR);
+      }
       setTimeout(() => {
         setMessage("");
-      }, 2000);
+      }, 4000);
     } finally {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (userInput[2]?.value.length < minPasswordStrength) {
+      setCheckPasswordStrength("Weak Password");
+    } else if (userInput[2]?.value.length === minPasswordStrength && userInput[2]?.value.length <= medPasswordStrength) {
+      setCheckPasswordStrength("Med Password");
+    } else if (userInput[2]?.value.length >= maxPasswordStrength) {
+      setCheckPasswordStrength("Strong Password");
+    }
+  }, [
+    userInput,
+    minPasswordStrength,
+    medPasswordStrength,
+    maxPasswordStrength,
+  ]);
 
   return (
     <>
@@ -117,8 +151,10 @@ const Signup = () => {
                     </label>
                     <div
                       className={`flex justify-between items-center border-2 ${
-                        isValid ? "border-red-300" : "border-neutral-200"
-                      } px-1 mt-1 rounded-lg`}
+                        isValid && !input?.value
+                          ? "border-red-300"
+                          : "border-neutral-200"
+                      } px-1 mt-1 rounded-lg duration-300`}
                     >
                       <input
                         value={input.value}
@@ -132,18 +168,36 @@ const Signup = () => {
                             : null
                         }
                         className={`outline-none text-sky-800 w-full p-2 ${
-                          isValid ? "placeholder:text-red-500" : null
-                        }`}
+                          isValid && !input?.value
+                            ? "placeholder:text-red-500"
+                            : null
+                        } duration-300`}
                       />
                       {input.label === signUpText.PASSWORD_LABEL && (
                         <p
                           onClick={input.visible}
                           className="mx-2 cursor-pointer"
                         >
-                          {isPasswordVisible ? input.eye_close : input.eye_open}
+                          {isPasswordVisible
+                            ? input?.eye_open
+                            : input.eye_close}
                         </p>
                       )}
                     </div>
+                    {input?.label === "Password" && input?.value && (
+                      <div className="flex justify-start items-center mt-1">
+                        {checkPasswordStrength === 'Weak Password' && (
+                          <X size={15} color={iconsColor.DELETE_ICON_COLOR} />
+                        )}
+                        {checkPasswordStrength === 'Med Password' && (
+                          <CircleAlert size={15} color={iconsColor.ALERT_ICON_COLOR} />
+                        )}
+                        {checkPasswordStrength === 'Strong Password' && (
+                          <Check size={15} color={iconsColor.SUCCESS_ICON_COLOR} />
+                        )}
+                        <p className="text-xs px-1">{checkPasswordStrength}</p>
+                      </div>
+                    )}
                   </div>
                 );
               })}
@@ -174,6 +228,24 @@ const Signup = () => {
           </div>
         </div>
       </div>
+      {message === acknowledgeMessagesText.EMPTY_FIELD_ERROR && (
+        <ErrorMessageToaster title={message} />
+      )}
+      {message === acknowledgeMessagesText.INVALID_CREDENTIALS_ERROR && (
+        <ErrorMessageToaster title={message} />
+      )}
+      {message === acknowledgeMessagesText.EXISTING_EMAIL_ERROR && (
+        <ErrorMessageToaster title={message} />
+      )}
+      {message === acknowledgeMessagesText.INVALID_EMAIL_ADDRESS_ERROR && (
+        <ErrorMessageToaster title={message} />
+      )}
+      {message === acknowledgeMessagesText.WEAK_PASSWORD_ERROR && (
+        <ErrorMessageToaster title={message} />
+      )}
+      {message === acknowledgeMessagesText.SUCCESS_OK && (
+        <SuccessMessageToaster title={message} />
+      )}
     </>
   );
 };
