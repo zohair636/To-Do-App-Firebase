@@ -92,7 +92,7 @@ const acknowledgeMessagesText = {
   EMPTY_FIELD_ERROR: "Please fill all the required fields!",
   INVALID_CREDENTIALS_ERROR: "Invalid credentials!",
   SUCCESS_OK: "Your account created successfully!",
-  EXISTING_EMAIL_ERROR: "This email address already exists!",
+  EXISTING_EMAIL_ERROR: "This email address is already exists!",
   INVALID_EMAIL_ADDRESS_ERROR: "Invalid email address!",
   WEAK_PASSWORD_ERROR: "Please enter a strong password!",
 };

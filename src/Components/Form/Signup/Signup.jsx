@@ -7,9 +7,8 @@ import {
 import SignUpButton from "../../Buttons/Submit/SignUpButton";
 import SignInButton from "../../Buttons/Submit/SignInButton";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
-import app from "../../../Global/firebaseConfig";
-import { Check, CircleAlert, Eye, EyeOff, TriangleAlert, X } from "lucide-react";
-import { formColors, iconsColor } from "../../../Global/colors";
+import { Check, CircleAlert, X } from "lucide-react";
+import { iconsColor } from "../../../Global/colors";
 import { FormContextSetterProvider } from "../../../Context/FormContext";
 import AuthAsset from "../../../assets/auth-asset.png";
 import GoogleIcon from "../../../assets/google.png";
@@ -18,10 +17,10 @@ import LinkedInIcon from "../../../assets/linkedin.png";
 import { v4 as uuidv4 } from "uuid";
 import ErrorMessageToaster from "../../Toaster/ErrorMessageToaster";
 import SuccessMessageToaster from "../../Toaster/SuccessMessageToaster";
+import { SignUpHelperFunction } from "../../../Helper/AuthHelper/AuthHelperFunction";
 
 const Signup = () => {
   const auth = getAuth();
-  const iconSize = 15;
   const minPasswordStrength = 6;
   const medPasswordStrength = 10;
   const maxPasswordStrength = 14;
@@ -29,33 +28,10 @@ const Signup = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState("");
+  const [checkEmailStrength, setCheckEmailStrength] = useState("");
   const [checkPasswordStrength, setCheckPasswordStrength] = useState("");
   const { getActiveForm } = useContext(FormContextSetterProvider);
-  const [userInput, setUserInput] = useState([
-    {
-      id: "1",
-      label: signUpText.FULL_NAME_LABEL,
-      placeholder: signUpText.FULL_NAME_PLACEHOLDER,
-      value: "",
-    },
-    {
-      id: "2",
-      label: signUpText.EMAIL_LABEL,
-      placeholder: signUpText.EMAIL_PLACEHOLDER,
-      value: "",
-    },
-    {
-      id: "3",
-      label: signUpText.PASSWORD_LABEL,
-      placeholder: signUpText.PASSWORD_PLACEHOLDER,
-      value: "",
-      eye_open: <Eye size={iconSize} color={formColors.EYE_OPEN_ICON_COLOR} />,
-      eye_close: (
-        <EyeOff size={iconSize} color={formColors.EYE_CLOSE_ICON_COLOR} />
-      ),
-      visible: () => setIsPasswordVisible((prev) => !prev),
-    },
-  ]);
+  const [userInput, setUserInput] = useState(SignUpHelperFunction(setIsPasswordVisible));
   const socialMediaIconsArray = [GoogleIcon, FaceBookIcon, LinkedInIcon];
 
   const handleChange = (e, index) => {
@@ -85,7 +61,12 @@ const Signup = () => {
       if (error.code === firebaseMessagesText.EMAIL_ALREADY_IN_USE) {
         setMessage(acknowledgeMessagesText.EXISTING_EMAIL_ERROR);
       }
-      if (error.code === firebaseMessagesText.INVALID_EMAIL) {
+      if (
+        name &&
+        email &&
+        password &&
+        error.code === firebaseMessagesText.INVALID_EMAIL
+      ) {
         setMessage(acknowledgeMessagesText.INVALID_EMAIL_ADDRESS_ERROR);
       }
       if (error.code === firebaseMessagesText.WEAK_PASSWORD) {
@@ -93,16 +74,31 @@ const Signup = () => {
       }
       setTimeout(() => {
         setMessage("");
-      }, 4000);
+      }, 5000);
     } finally {
       setIsLoading(false);
     }
   };
 
   useEffect(() => {
+    if (
+      userInput[1]?.value.includes(".") &&
+      userInput[1]?.value.includes("@") &&
+      userInput[1]?.value.includes("co", "com")
+    ) {
+      setCheckEmailStrength("Correct");
+    } else {
+      setCheckEmailStrength("Wrong");
+    }
+  }, [userInput]);
+
+  useEffect(() => {
     if (userInput[2]?.value.length < minPasswordStrength) {
       setCheckPasswordStrength("Weak Password");
-    } else if (userInput[2]?.value.length === minPasswordStrength && userInput[2]?.value.length <= medPasswordStrength) {
+    } else if (
+      userInput[2]?.value.length === minPasswordStrength &&
+      userInput[2]?.value.length <= medPasswordStrength
+    ) {
       setCheckPasswordStrength("Med Password");
     } else if (userInput[2]?.value.length >= maxPasswordStrength) {
       setCheckPasswordStrength("Strong Password");
@@ -154,12 +150,16 @@ const Signup = () => {
                         isValid && !input?.value
                           ? "border-red-300"
                           : "border-neutral-200"
-                      } px-1 mt-1 rounded-lg duration-300`}
+                      } px-1 mt-1 rounded-lg duration-300 relative`}
                     >
                       <input
                         value={input.value}
                         onChange={(e) => handleChange(e, index)}
-                        placeholder={input.placeholder}
+                        placeholder={
+                          isValid && !input?.value
+                            ? "Required"
+                            : input.placeholder
+                        }
                         type={
                           input.label === signUpText.PASSWORD_LABEL
                             ? !isPasswordVisible
@@ -183,29 +183,72 @@ const Signup = () => {
                             : input.eye_close}
                         </p>
                       )}
+                      {input?.label === signUpText.EMAIL_LABEL &&
+                        input?.value && (
+                          <div
+                            className={`absolute right-4 ${
+                              (["Wrong"].includes(checkEmailStrength) &&
+                                "bg-red-200") ||
+                              (["Correct"].includes(checkEmailStrength) &&
+                                "bg-green-200")
+                            } flex justify-start items-center mt-1 p-0.5 rounded-full`}
+                          >
+                            {checkEmailStrength === "Wrong" && (
+                              <X
+                                size={15}
+                                color={iconsColor.DELETE_ICON_COLOR}
+                              />
+                            )}
+                            {checkEmailStrength === "Correct" && (
+                              <Check
+                                size={15}
+                                color={iconsColor.SUCCESS_ICON_COLOR}
+                              />
+                            )}
+                          </div>
+                        )}
+                      {input?.label === signUpText.PASSWORD_LABEL &&
+                        input?.value && (
+                          <div
+                            className={`absolute right-10 ${
+                              (["Weak Password"].includes(
+                                checkPasswordStrength
+                              ) &&
+                                "bg-red-200") ||
+                              (["Med Password"].includes(
+                                checkPasswordStrength
+                              ) &&
+                                "bg-yellow-200") ||
+                              (["Strong Password"].includes(
+                                checkPasswordStrength
+                              ) &&
+                                "bg-green-200")
+                            } flex justify-start items-center mt-1 p-0.5 rounded-full`}
+                          >
+                            {checkPasswordStrength === "Weak Password" && (
+                              <X
+                                size={15}
+                                color={iconsColor.DELETE_ICON_COLOR}
+                              />
+                            )}
+                            {checkPasswordStrength === "Med Password" && (
+                              <CircleAlert
+                                size={15}
+                                color={iconsColor.ALERT_ICON_COLOR}
+                              />
+                            )}
+                            {checkPasswordStrength === "Strong Password" && (
+                              <Check
+                                size={15}
+                                color={iconsColor.SUCCESS_ICON_COLOR}
+                              />
+                            )}
+                          </div>
+                        )}
                     </div>
-                    {input?.label === "Password" && input?.value && (
-                      <div className="flex justify-start items-center mt-1">
-                        {checkPasswordStrength === 'Weak Password' && (
-                          <X size={15} color={iconsColor.DELETE_ICON_COLOR} />
-                        )}
-                        {checkPasswordStrength === 'Med Password' && (
-                          <CircleAlert size={15} color={iconsColor.ALERT_ICON_COLOR} />
-                        )}
-                        {checkPasswordStrength === 'Strong Password' && (
-                          <Check size={15} color={iconsColor.SUCCESS_ICON_COLOR} />
-                        )}
-                        <p className="text-xs px-1">{checkPasswordStrength}</p>
-                      </div>
-                    )}
                   </div>
                 );
               })}
-              {/* <p className="text-xs">
-                add email and password validation. display cross icon if
-                password requirement is not fullfil if fullfill then display a
-                tick icon
-              </p> */}
               <SignUpButton submit={handleSubmit} isLoading={isLoading} />
               <div className="flex justify-start items-center mt-3 gap-5">
                 <p className="text-neutral-400">
