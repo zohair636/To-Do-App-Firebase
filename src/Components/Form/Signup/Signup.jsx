@@ -1,11 +1,11 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import {
   acknowledgeMessagesText,
   firebaseMessagesText,
+  signinText,
   signUpText,
 } from "../../../Global/text";
-import SignUpButton from "../../Buttons/Submit/SignUpButton";
-import SignInButton from "../../Buttons/Submit/SignInButton";
+import AuthButton from "../../Buttons/Submit/AuthButton";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { Check, CircleAlert, X } from "lucide-react";
 import { iconsColor } from "../../../Global/colors";
@@ -18,21 +18,26 @@ import { v4 as uuidv4 } from "uuid";
 import ErrorMessageToaster from "../../Toaster/ErrorMessageToaster";
 import SuccessMessageToaster from "../../Toaster/SuccessMessageToaster";
 import { SignUpHelperFunction } from "../../../Helper/AuthHelper/AuthHelperFunction";
+import {
+  useEmailValidation,
+  usePasswordValidation,
+} from "../../../Hooks/useAuthValidation";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
   const auth = getAuth();
-  const minPasswordStrength = 6;
-  const medPasswordStrength = 10;
-  const maxPasswordStrength = 14;
+  const navigate = useNavigate()
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState("");
-  const [checkEmailStrength, setCheckEmailStrength] = useState("");
-  const [checkPasswordStrength, setCheckPasswordStrength] = useState("");
-  const { getActiveForm } = useContext(FormContextSetterProvider);
-  const [userInput, setUserInput] = useState(SignUpHelperFunction(setIsPasswordVisible));
+  const { setActiveForm } = useContext(FormContextSetterProvider);
+  const [userInput, setUserInput] = useState(
+    SignUpHelperFunction(setIsPasswordVisible)
+  );
   const socialMediaIconsArray = [GoogleIcon, FaceBookIcon, LinkedInIcon];
+  const emailStrength = useEmailValidation(userInput);
+  const passwordStrength = usePasswordValidation(userInput);
 
   const handleChange = (e, index) => {
     const newInput = [...userInput];
@@ -55,6 +60,7 @@ const Signup = () => {
       setTimeout(() => {
         setMessage("");
       }, 2000);
+      navigate('/Home')
     } catch (error) {
       console.log(error);
       setIsLoading(false);
@@ -80,41 +86,17 @@ const Signup = () => {
     }
   };
 
-  useEffect(() => {
-    if (
-      userInput[1]?.value.includes(".") &&
-      userInput[1]?.value.includes("@") &&
-      userInput[1]?.value.includes("co", "com")
-    ) {
-      setCheckEmailStrength("Correct");
-    } else {
-      setCheckEmailStrength("Wrong");
+  const handleEnterButton = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit(e);
     }
-  }, [userInput]);
-
-  useEffect(() => {
-    if (userInput[2]?.value.length < minPasswordStrength) {
-      setCheckPasswordStrength("Weak Password");
-    } else if (
-      userInput[2]?.value.length === minPasswordStrength &&
-      userInput[2]?.value.length <= medPasswordStrength
-    ) {
-      setCheckPasswordStrength("Med Password");
-    } else if (userInput[2]?.value.length >= maxPasswordStrength) {
-      setCheckPasswordStrength("Strong Password");
-    }
-  }, [
-    userInput,
-    minPasswordStrength,
-    medPasswordStrength,
-    maxPasswordStrength,
-  ]);
+  };
 
   return (
     <>
       <div className="absolute inset-0 flex justify-center items-center">
         <div className="grid grid-flow-row grid-cols-12 bg-white shadow-xl rounded-3xl p-5">
-          <div className="bg-neutral-50 rounded-3xl col-span-6">
+          <div className="bg-neutral-50 rounded-3xl col-span-6 lg:block hidden">
             <img src={AuthAsset} alt="image" className="w-full h-full" />
           </div>
           <div className="col-span-6">
@@ -123,10 +105,11 @@ const Signup = () => {
                 {signUpText.ALREADY_HAVE_AN_ACCOUNT}
               </h6>
               <div className="border-2 border-neutral-200 hover:bg-neutral-50 hover:duration-200 rounded-full p-1 px-5 duration-200">
-                <SignInButton
+                <AuthButton
                   textColor={"text-sky-700"}
                   textSize={"text-sm"}
-                  submit={() => getActiveForm("Signin")}
+                  submit={() => setActiveForm("Signin")}
+                  title={signinText.SIGNIN_BUTTON_LABEL}
                 />
               </div>
             </div>
@@ -155,6 +138,7 @@ const Signup = () => {
                       <input
                         value={input.value}
                         onChange={(e) => handleChange(e, index)}
+                        onKeyDown={handleEnterButton}
                         placeholder={
                           isValid && !input?.value
                             ? "Required"
@@ -187,19 +171,19 @@ const Signup = () => {
                         input?.value && (
                           <div
                             className={`absolute right-4 ${
-                              (["Wrong"].includes(checkEmailStrength) &&
+                              (["Wrong"].includes(emailStrength) &&
                                 "bg-red-200") ||
-                              (["Correct"].includes(checkEmailStrength) &&
+                              (["Correct"].includes(emailStrength) &&
                                 "bg-green-200")
                             } flex justify-start items-center mt-1 p-0.5 rounded-full`}
                           >
-                            {checkEmailStrength === "Wrong" && (
+                            {emailStrength === "Wrong" && (
                               <X
                                 size={15}
                                 color={iconsColor.DELETE_ICON_COLOR}
                               />
                             )}
-                            {checkEmailStrength === "Correct" && (
+                            {emailStrength === "Correct" && (
                               <Check
                                 size={15}
                                 color={iconsColor.SUCCESS_ICON_COLOR}
@@ -211,33 +195,27 @@ const Signup = () => {
                         input?.value && (
                           <div
                             className={`absolute right-10 ${
-                              (["Weak Password"].includes(
-                                checkPasswordStrength
-                              ) &&
+                              (["Weak Password"].includes(passwordStrength) &&
                                 "bg-red-200") ||
-                              (["Med Password"].includes(
-                                checkPasswordStrength
-                              ) &&
+                              (["Med Password"].includes(passwordStrength) &&
                                 "bg-yellow-200") ||
-                              (["Strong Password"].includes(
-                                checkPasswordStrength
-                              ) &&
+                              (["Strong Password"].includes(passwordStrength) &&
                                 "bg-green-200")
                             } flex justify-start items-center mt-1 p-0.5 rounded-full`}
                           >
-                            {checkPasswordStrength === "Weak Password" && (
+                            {passwordStrength === "Weak Password" && (
                               <X
                                 size={15}
                                 color={iconsColor.DELETE_ICON_COLOR}
                               />
                             )}
-                            {checkPasswordStrength === "Med Password" && (
+                            {passwordStrength === "Med Password" && (
                               <CircleAlert
                                 size={15}
                                 color={iconsColor.ALERT_ICON_COLOR}
                               />
                             )}
-                            {checkPasswordStrength === "Strong Password" && (
+                            {passwordStrength === "Strong Password" && (
                               <Check
                                 size={15}
                                 color={iconsColor.SUCCESS_ICON_COLOR}
@@ -249,7 +227,16 @@ const Signup = () => {
                   </div>
                 );
               })}
-              <SignUpButton submit={handleSubmit} isLoading={isLoading} />
+              <AuthButton
+                title={signUpText.SIGNUP_BUTTON_LABEL}
+                submit={handleSubmit}
+                isLoading={isLoading}
+                btnBg={
+                  "bg-sky-700 hover:bg-sky-800 hover:duration-200 duration-200"
+                }
+                textColor={"text-white"}
+                btnMargin={"shadow-lg p-3 px-14 mt-5 rounded-full"}
+              />
               <div className="flex justify-start items-center mt-3 gap-5">
                 <p className="text-neutral-400">
                   {signUpText.CREATE_ACCOUNT_WITH}

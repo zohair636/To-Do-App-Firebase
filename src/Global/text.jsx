@@ -19,11 +19,13 @@ const signUpText = {
 
 const signinText = {
   TITLE: "Signin To Continue",
+  SUB_TITLE: "Login to your account",
   EMAIL_LABEL: "Email",
   PASSWORD_LABEL: "Password",
   EMAIL_PLACEHOLDER: "Enter your email address",
   PASSWORD_PLACEHOLDER: "Enter your password",
   SIGNIN_BUTTON_LABEL: "Sign In",
+  CREATE_ACCOUNT_WITH: "Create account with",
   DID_NOT_HAVE_AN_ACCOUNT: "Didn't have an account?",
   SIGNUP: "Signup",
 };
