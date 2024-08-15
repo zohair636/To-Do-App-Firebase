@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { signinText, signUpText } from "../../Global/text";
+import { forgotPasswordText, signinText, signUpText } from "../../Global/text";
 import { Eye, EyeOff } from "lucide-react";
 import { formColors } from "../../Global/colors";
 
@@ -55,4 +55,19 @@ const SignInHelperFunction = (passwordVisible) => {
   ];
 };
 
-export { SignUpHelperFunction, SignInHelperFunction };
+const ForgotPasswordHelperFunction = () => {
+  return [
+    {
+      id: uuidv4(),
+      label: forgotPasswordText.EMAIL_LABEL,
+      placeholder: forgotPasswordText.EMAIL_PLACEHOLDER,
+      value: "",
+    },
+  ];
+};
+
+export {
+  SignUpHelperFunction,
+  SignInHelperFunction,
+  ForgotPasswordHelperFunction,
+};

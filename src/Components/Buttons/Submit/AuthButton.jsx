@@ -1,5 +1,3 @@
-import { signinText } from "../../../Global/text";
-
 const AuthButton = ({
   submit,
   isLoading,
@@ -7,7 +5,7 @@ const AuthButton = ({
   textSize,
   btnBg,
   btnMargin,
-  title
+  title,
 }) => {
   return (
     <div className="flex justify-center items-center">

@@ -36,8 +36,8 @@ const Signup = () => {
     SignUpHelperFunction(setIsPasswordVisible)
   );
   const socialMediaIconsArray = [GoogleIcon, FaceBookIcon, LinkedInIcon];
-  const emailStrength = useEmailValidation(userInput);
-  const passwordStrength = usePasswordValidation(userInput);
+  const emailStrength = useEmailValidation(userInput, 1);
+  const passwordStrength = usePasswordValidation(userInput, 2);
 
   const handleChange = (e, index) => {
     const newInput = [...userInput];
@@ -95,13 +95,13 @@ const Signup = () => {
   return (
     <>
       <div className="absolute inset-0 flex justify-center items-center">
-        <div className="grid grid-flow-row grid-cols-12 bg-white shadow-xl rounded-3xl p-5">
+        <div className="grid grid-flow-row grid-cols-12 bg-white border-2 border-neutral-100 shadow-xl rounded-3xl p-5 md:w-fit sm:w-10/12 w-11/12">
           <div className="bg-neutral-50 rounded-3xl col-span-6 lg:block hidden">
-            <img src={AuthAsset} alt="image" className="w-full h-full" />
+            <img src={AuthAsset} alt="image" className="xl:w-full xl:h-full w-96 h-96" />
           </div>
-          <div className="col-span-6">
+          <div className="lg:col-span-6 col-span-12">
             <div className="flex justify-end items-center gap-4 mb-5">
-              <h6 className="text-neutral-400">
+              <h6 className="text-neutral-400 sm:text-base text-sm">
                 {signUpText.ALREADY_HAVE_AN_ACCOUNT}
               </h6>
               <div className="border-2 border-neutral-200 hover:bg-neutral-50 hover:duration-200 rounded-full p-1 px-5 duration-200">
@@ -113,12 +113,12 @@ const Signup = () => {
                 />
               </div>
             </div>
-            <div className="flex flex-col justify-center items-start p-5 mx-10">
+            <div className="flex flex-col justify-center items-start p-5 sm:mx-10 mx-0">
               <div className="mb-5">
-                <h1 className="text-neutral-600 text-3xl text-center font-bold">
+                <h1 className="text-neutral-600 md:text-3xl text-2xl text-center font-bold">
                   {signUpText.TITLE}
                 </h1>
-                <h6 className="text-neutral-400 font-semibold mt-2">
+                <h6 className="text-neutral-400 md:text-base text-sm font-semibold mt-2">
                   {signUpText.SUB_TITLE}
                 </h6>
               </div>
@@ -237,22 +237,26 @@ const Signup = () => {
                 textColor={"text-white"}
                 btnMargin={"shadow-lg p-3 px-14 mt-5 rounded-full"}
               />
-              <div className="flex justify-start items-center mt-3 gap-5">
-                <p className="text-neutral-400">
-                  {signUpText.CREATE_ACCOUNT_WITH}
-                </p>
-                {socialMediaIconsArray.map((socialMediaIcons) => (
-                  <div
-                    key={uuidv4()}
-                    className="border border-neutral-200 hover:bg-neutral-50 rounded-full p-3 cursor-pointer"
-                  >
-                    <img
-                      src={socialMediaIcons}
-                      alt="social media icons"
-                      className="w-5 h-5"
-                    />
-                  </div>
-                ))}
+              <div className="sm:flex sm:justify-start sm:items-center grid grid-flow-row grid-cols-12 mt-3 gap-4">
+                <div className="sm:col-span-6 col-span-12">
+                  <p className="text-neutral-400">
+                    {signinText.CREATE_ACCOUNT_WITH}
+                  </p>
+                </div>
+                <div className="flex justify-start items-center sm:col-span-6 col-span-12 gap-4">
+                  {socialMediaIconsArray.map((socialMediaIcons) => (
+                    <div
+                      key={uuidv4()}
+                      className="border border-neutral-200 hover:bg-neutral-50 rounded-full p-3 cursor-pointer w-fit"
+                    >
+                      <img
+                        src={socialMediaIcons}
+                        alt="social media icons"
+                        className="w-5 h-5"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

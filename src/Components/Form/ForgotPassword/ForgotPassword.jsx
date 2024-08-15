@@ -2,43 +2,41 @@ import { useContext, useState } from "react";
 import {
   acknowledgeMessagesText,
   firebaseMessagesText,
+  forgotPasswordText,
   signinText,
-  signUpText,
 } from "../../../Global/text";
-import { Check, CircleAlert, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { iconsColor } from "../../../Global/colors";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, updatePassword } from "firebase/auth";
 import app from "../../../Global/firebaseConfig";
 import AuthButton from "../../Buttons/Submit/AuthButton";
 import { useNavigate } from "react-router-dom";
 import { FormContextSetterProvider } from "../../../Context/FormContext";
-import { SignInHelperFunction } from "../../../Helper/AuthHelper/AuthHelperFunction";
+import { ForgotPasswordHelperFunction } from "../../../Helper/AuthHelper/AuthHelperFunction";
 import AuthAsset from "../../../assets/auth-asset.png";
 import GoogleIcon from "../../../assets/google.png";
 import FaceBookIcon from "../../../assets/facebook.png";
 import LinkedInIcon from "../../../assets/linkedin.png";
 import {
   useEmailValidation,
-  usePasswordValidation,
 } from "../../../Hooks/useAuthValidation";
 import { v4 as uuidv4 } from "uuid";
 import ErrorMessageToaster from "../../Toaster/ErrorMessageToaster";
 import SuccessMessageToaster from "../../Toaster/SuccessMessageToaster";
 
-const Signin = () => {
+const ForgotPassword = () => {
   const auth = getAuth(app);
+  const user = auth.currentUser;
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState("");
   const { setActiveForm } = useContext(FormContextSetterProvider);
   const [userInput, setUserInput] = useState(
-    SignInHelperFunction(setIsPasswordVisible)
+    ForgotPasswordHelperFunction()
   );
   const socialMediaIconsArray = [GoogleIcon, FaceBookIcon, LinkedInIcon];
   const emailStrength = useEmailValidation(userInput, 0);
-  const passwordStrength = usePasswordValidation(userInput, 1);
 
   const handleChange = (e, index) => {
     const updateInput = [...userInput];
@@ -48,14 +46,13 @@ const Signin = () => {
 
   const handleSubmit = async () => {
     const email = userInput[0].value;
-    const password = userInput[1].value;
-    if (!email || !password) {
+    if (!email) {
       setIsValid(true);
       setMessage(acknowledgeMessagesText.EMPTY_FIELD_ERROR);
     }
     try {
       setIsLoading(true);
-      await signInWithEmailAndPassword(auth, email, password);
+      await updatePassword(auth, email);
       setMessage(acknowledgeMessagesText.SUCCESS_OK);
       setTimeout(() => {
         setMessage("");
@@ -69,13 +66,9 @@ const Signin = () => {
       }
       if (
         email &&
-        password &&
         error.code === firebaseMessagesText.INVALID_EMAIL
       ) {
         setMessage(acknowledgeMessagesText.INVALID_EMAIL_ADDRESS_ERROR);
-      }
-      if (error.code === firebaseMessagesText.WEAK_PASSWORD) {
-        setMessage(acknowledgeMessagesText.WEAK_PASSWORD_ERROR);
       }
       setTimeout(() => {
         setMessage("");
@@ -91,39 +84,34 @@ const Signin = () => {
       handleSubmit(e);
     }
   };
-
   return (
     <>
       <div className="absolute inset-0 flex justify-center items-center">
         <div className="grid grid-flow-row grid-cols-12 bg-white border-2 border-neutral-100 shadow-xl rounded-3xl p-5 md:w-fit sm:w-10/12 w-11/12">
-          <div className="bg-neutral-50 rounded-3xl lg:col-span-6 lg:block hidden">
-            <img
-              src={AuthAsset}
-              alt="image"
-              className="xl:w-full xl:h-full w-96 h-96"
-            />
+          <div className="bg-neutral-50 rounded-3xl col-span-6 lg:block hidden">
+            <img src={AuthAsset} alt="image" className="xl:w-full xl:h-full w-96 h-96" />
           </div>
           <div className="lg:col-span-6 col-span-12">
             <div className="flex justify-end items-center gap-4 mb-5">
               <h6 className="text-neutral-400 sm:text-base text-sm">
-                {signinText.DID_NOT_HAVE_AN_ACCOUNT}
+                {forgotPasswordText.BACK_TO_LOGIN}
               </h6>
               <div className="border-2 border-neutral-200 hover:bg-neutral-50 hover:duration-200 rounded-full p-1 px-5 duration-200">
                 <AuthButton
                   textColor={"text-sky-700"}
                   textSize={"text-sm"}
-                  submit={() => setActiveForm("Signup")}
-                  title={signUpText.SIGNUP_BUTTON_LABEL}
+                  submit={() => setActiveForm("Signin")}
+                  title={signinText.SIGNIN_BUTTON_LABEL}
                 />
               </div>
             </div>
             <div className="flex flex-col justify-center items-start p-5 sm:mx-10 mx-0">
               <div className="mb-5">
                 <h1 className="text-neutral-600 md:text-3xl text-2xl text-center font-bold">
-                  {signinText.TITLE}
+                  {forgotPasswordText.TITLE}
                 </h1>
                 <h6 className="text-neutral-400 md:text-base text-sm font-semibold mt-2">
-                  {signinText.SUB_TITLE}
+                  {forgotPasswordText.SUB_TITLE}
                 </h6>
               </div>
               {userInput.map((input, index) => {
@@ -148,30 +136,13 @@ const Signin = () => {
                             ? "Required"
                             : input.placeholder
                         }
-                        type={
-                          input.label === signinText.PASSWORD_LABEL
-                            ? !isPasswordVisible
-                              ? "password"
-                              : "text"
-                            : null
-                        }
                         className={`outline-none text-sky-800 w-full p-2 ${
                           isValid && !input?.value
                             ? "placeholder:text-red-500"
                             : null
                         } duration-300`}
                       />
-                      {input.label === signinText.PASSWORD_LABEL && (
-                        <p
-                          onClick={input.visible}
-                          className="mx-2 cursor-pointer"
-                        >
-                          {isPasswordVisible
-                            ? input?.eye_open
-                            : input.eye_close}
-                        </p>
-                      )}
-                      {input?.label === signinText.EMAIL_LABEL &&
+                      {input?.label === forgotPasswordText.EMAIL_LABEL &&
                         input?.value && (
                           <div
                             className={`absolute right-4 ${
@@ -195,49 +166,12 @@ const Signin = () => {
                             )}
                           </div>
                         )}
-                      {input?.label === signinText.PASSWORD_LABEL &&
-                        input?.value && (
-                          <div
-                            className={`absolute right-10 ${
-                              (["Weak Password"].includes(passwordStrength) &&
-                                "bg-red-200") ||
-                              (["Med Password"].includes(passwordStrength) &&
-                                "bg-yellow-200") ||
-                              (["Strong Password"].includes(passwordStrength) &&
-                                "bg-green-200")
-                            } flex justify-start items-center mt-1 p-0.5 rounded-full`}
-                          >
-                            {passwordStrength === "Weak Password" && (
-                              <X
-                                size={15}
-                                color={iconsColor.DELETE_ICON_COLOR}
-                              />
-                            )}
-                            {passwordStrength === "Med Password" && (
-                              <CircleAlert
-                                size={15}
-                                color={iconsColor.ALERT_ICON_COLOR}
-                              />
-                            )}
-                            {passwordStrength === "Strong Password" && (
-                              <Check
-                                size={15}
-                                color={iconsColor.SUCCESS_ICON_COLOR}
-                              />
-                            )}
-                          </div>
-                        )}
                     </div>
                   </div>
                 );
               })}
               <AuthButton
-                title={signinText.FORGOT_PASSWORD}
-                textColor={"text-sky-700 text-sm"}
-                submit={() => setActiveForm("Forgot Password")}
-              />
-              <AuthButton
-                title={signinText.SIGNIN_BUTTON_LABEL}
+                title={forgotPasswordText.FORGOT_PASSWORD_BUTTON_LABEL}
                 submit={handleSubmit}
                 isLoading={isLoading}
                 btnBg={
@@ -283,9 +217,6 @@ const Signin = () => {
       {message === acknowledgeMessagesText.INVALID_EMAIL_ADDRESS_ERROR && (
         <ErrorMessageToaster title={message} />
       )}
-      {message === acknowledgeMessagesText.WEAK_PASSWORD_ERROR && (
-        <ErrorMessageToaster title={message} />
-      )}
       {message === acknowledgeMessagesText.SUCCESS_OK && (
         <SuccessMessageToaster title={message} />
       )}
@@ -293,4 +224,4 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export default ForgotPassword;

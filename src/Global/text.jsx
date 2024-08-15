@@ -12,7 +12,7 @@ const signUpText = {
   EMAIL_PLACEHOLDER: "Enter your email address",
   PASSWORD_PLACEHOLDER: "Enter your password",
   SIGNUP_BUTTON_LABEL: "Sign Up",
-  CREATE_ACCOUNT_WITH: "Create account with",
+  CREATE_ACCOUNT_WITH: "Create account with:",
   ALREADY_HAVE_AN_ACCOUNT: "Already have an account?",
   SIGNIN: "Signin",
 };
@@ -25,9 +25,19 @@ const signinText = {
   EMAIL_PLACEHOLDER: "Enter your email address",
   PASSWORD_PLACEHOLDER: "Enter your password",
   SIGNIN_BUTTON_LABEL: "Sign In",
-  CREATE_ACCOUNT_WITH: "Create account with",
+  CREATE_ACCOUNT_WITH: "Create account with:",
   DID_NOT_HAVE_AN_ACCOUNT: "Didn't have an account?",
+  FORGOT_PASSWORD: "Forgot Password?",
   SIGNUP: "Signup",
+};
+
+const forgotPasswordText = {
+  TITLE: "Forgot Your Password",
+  SUB_TITLE: "Lets change it and make it new",
+  EMAIL_LABEL: "Email",
+  EMAIL_PLACEHOLDER: "Enter your registered email address",
+  FORGOT_PASSWORD_BUTTON_LABEL: 'Proceed',
+  BACK_TO_LOGIN: 'Back to Login?',
 };
 
 const sideBarText = {
@@ -109,6 +119,7 @@ export {
   commonText,
   signUpText,
   signinText,
+  forgotPasswordText,
   sideBarText,
   createTodoText,
   homeText,
