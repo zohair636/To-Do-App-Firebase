@@ -4,6 +4,7 @@ const commonText = {
 
 const signUpText = {
   TITLE: "Signup To Continue",
+  SUB_TITLE: "Register your account",
   FULL_NAME_LABEL: "Full Name",
   EMAIL_LABEL: "Email",
   PASSWORD_LABEL: "Password",
@@ -11,19 +12,32 @@ const signUpText = {
   EMAIL_PLACEHOLDER: "Enter your email address",
   PASSWORD_PLACEHOLDER: "Enter your password",
   SIGNUP_BUTTON_LABEL: "Sign Up",
+  CREATE_ACCOUNT_WITH: "Create account with:",
   ALREADY_HAVE_AN_ACCOUNT: "Already have an account?",
   SIGNIN: "Signin",
 };
 
 const signinText = {
   TITLE: "Signin To Continue",
+  SUB_TITLE: "Login to your account",
   EMAIL_LABEL: "Email",
   PASSWORD_LABEL: "Password",
   EMAIL_PLACEHOLDER: "Enter your email address",
   PASSWORD_PLACEHOLDER: "Enter your password",
   SIGNIN_BUTTON_LABEL: "Sign In",
+  CREATE_ACCOUNT_WITH: "Create account with:",
   DID_NOT_HAVE_AN_ACCOUNT: "Didn't have an account?",
+  FORGOT_PASSWORD: "Forgot Password?",
   SIGNUP: "Signup",
+};
+
+const forgotPasswordText = {
+  TITLE: "Forgot Your Password",
+  SUB_TITLE: "Lets change it and make it new",
+  EMAIL_LABEL: "Email",
+  EMAIL_PLACEHOLDER: "Enter your registered email address",
+  FORGOT_PASSWORD_BUTTON_LABEL: 'Proceed',
+  BACK_TO_LOGIN: 'Back to Login?',
 };
 
 const sideBarText = {
@@ -86,12 +100,30 @@ const createTodoText = {
   BUTTON_NAME: "+ | Create New Todo",
 };
 
+const acknowledgeMessagesText = {
+  EMPTY_FIELD_ERROR: "Please fill all the required fields!",
+  INVALID_CREDENTIALS_ERROR: "Invalid credentials!",
+  SUCCESS_OK: "Your account created successfully!",
+  EXISTING_EMAIL_ERROR: "This email address is already exists!",
+  INVALID_EMAIL_ADDRESS_ERROR: "Invalid email address!",
+  WEAK_PASSWORD_ERROR: "Please enter a strong password!",
+};
+
+const firebaseMessagesText = {
+  EMAIL_ALREADY_IN_USE: "auth/email-already-in-use",
+  INVALID_EMAIL: "auth/invalid-email",
+  WEAK_PASSWORD: "auth/weak-password",
+};
+
 export {
   commonText,
   signUpText,
   signinText,
+  forgotPasswordText,
   sideBarText,
   createTodoText,
   homeText,
   buttonText,
+  acknowledgeMessagesText,
+  firebaseMessagesText,
 };

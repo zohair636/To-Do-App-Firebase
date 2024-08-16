@@ -6,12 +6,8 @@ const FormContextGetterProvider = createContext();
 const FormContext = ({ children }) => {
   const [activeForm, setActiveForm] = useState("Signin");
 
-  const getActiveForm = (form) => {
-    setActiveForm(form);
-  };
-
   return (
-    <FormContextSetterProvider.Provider value={{ getActiveForm }}>
+    <FormContextSetterProvider.Provider value={{ setActiveForm }}>
       <FormContextGetterProvider.Provider value={{ activeForm }}>
         {children}
       </FormContextGetterProvider.Provider>
