@@ -11,6 +11,7 @@ import GeneralOption from "../../SideBar/SettingsOptions/GeneralOption";
 import PersonalizationOption from "../../SideBar/SettingsOptions/PersonalizationOption";
 import DataControls from "../../SideBar/SettingsOptions/DataControls";
 import ProfileBuilder from "../../SideBar/SettingsOptions/ProfileBuilder";
+import '../../../App.css';
 
 const SettingsModalData = ({ onClose }) => {
   const { sideBarOptionsActiveMenu } = useContext(SideBarContextGetterProvider);
@@ -36,7 +37,8 @@ const SettingsModalData = ({ onClose }) => {
       <div className="grid grid-flow-row grid-cols-12">
         {settingsOptions.map((items) => {
           return (
-            <div key={items?.id} className="col-span-3">
+            <div key={items?.id} className="md:col-span-3 md:block flex w-[50rem] max-w-screen overflow-x-auto relative no-scrollbar">
+              <div className="md:hidden bg-neutral-200/90 absolute inset-[0.65rem] w-[50rem] h-8 -z-10 rounded-lg" />
               {items?.setting?.options.map((option) => {
                 return (
                   <div key={option?.id} className="mx-3 my-3">
@@ -49,7 +51,7 @@ const SettingsModalData = ({ onClose }) => {
                       onClick={() => setSideBarOptionsActiveMenu(option?.title)}
                     >
                       <p>{option?.icon}</p>
-                      <li className="text-neutral-600 px-3">{option?.title}</li>
+                      <li className="text-neutral-600 md:text-base text-sm px-3">{option?.title}</li>
                     </ul>
                   </div>
                 );
@@ -57,7 +59,7 @@ const SettingsModalData = ({ onClose }) => {
             </div>
           );
         })}
-        <div className="col-span-9">
+        <div className="md:col-span-9 col-span-12">
           {sideBarOptionsActiveMenu === sideBarText.GENERAL_LABEL && (
             <GeneralOption />
           )}

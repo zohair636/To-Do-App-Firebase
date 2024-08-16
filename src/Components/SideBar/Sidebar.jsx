@@ -10,8 +10,11 @@ import SettingsModalData from "../Modal/SettingsModal/SettingsModalData";
 
 const Sidebar = () => {
   const [sideBar, setSideBar] = useState([SideBarHelperFunction()]);
-  const { setActiveMenu, setIsSettingsModalOpen, setIsSideBarClosed } = useContext(SideBarContextSetterProvider);
-  const { activeMenu, isSettingsModalOpen } = useContext(SideBarContextGetterProvider);
+  const { setActiveMenu, setIsSettingsModalOpen, setIsSideBarClosed } =
+    useContext(SideBarContextSetterProvider);
+  const { activeMenu, isSettingsModalOpen } = useContext(
+    SideBarContextGetterProvider
+  );
 
   const handleActiveMenu = (active, index) => {
     if (index > 0) {
@@ -25,7 +28,7 @@ const Sidebar = () => {
       updateSideBar[index].isSideBarClosed = !sideBar;
       return updateSideBar;
     });
-    setIsSideBarClosed(!sideBar)
+    setIsSideBarClosed(!sideBar);
   };
 
   return (
@@ -97,22 +100,12 @@ const Sidebar = () => {
             })}
             <>
               <div
-                className={`${
-                  activeMenu === items?.setting?.title
-                    ? "absolute top-3/4 mt-11 left-0 border-l-4 border-neutral-600 h-6 rounded-full"
-                    : null
-                }`}
-              />
-              <div
                 className={`flex ${
                   items?.isSideBarClosed === true
                     ? "justify-center"
                     : "justify-start"
                 } items-center cursor-pointer hover:bg-neutral-100 hover:duration-300 duration-300 p-1 m-3 rounded-md absolute inset-0 top-3/4 mt-10 h-fit`}
-                onClick={() => {
-                  setActiveMenu(items?.setting?.title),
-                    setIsSettingsModalOpen(true);
-                }}
+                onClick={() => setIsSettingsModalOpen(true)}
               >
                 <p className="px-2">{items?.setting?.icon}</p>
                 {items?.isSideBarClosed === true ? null : (
