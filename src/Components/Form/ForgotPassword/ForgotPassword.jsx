@@ -7,34 +7,27 @@ import {
 } from "../../../Global/text";
 import { Check, X } from "lucide-react";
 import { iconsColor } from "../../../Global/colors";
-import { getAuth, updatePassword } from "firebase/auth";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 import app from "../../../Global/firebaseConfig";
 import AuthButton from "../../Buttons/Submit/AuthButton";
-import { useNavigate } from "react-router-dom";
 import { FormContextSetterProvider } from "../../../Context/FormContext";
 import { ForgotPasswordHelperFunction } from "../../../Helper/AuthHelper/AuthHelperFunction";
 import AuthAsset from "../../../assets/auth-asset.png";
 import GoogleIcon from "../../../assets/google.png";
 import FaceBookIcon from "../../../assets/facebook.png";
 import LinkedInIcon from "../../../assets/linkedin.png";
-import {
-  useEmailValidation,
-} from "../../../Hooks/useAuthValidation";
+import { useEmailValidation } from "../../../Hooks/useAuthValidation";
 import { v4 as uuidv4 } from "uuid";
 import ErrorMessageToaster from "../../Toaster/ErrorMessageToaster";
 import SuccessMessageToaster from "../../Toaster/SuccessMessageToaster";
 
 const ForgotPassword = () => {
   const auth = getAuth(app);
-  const user = auth.currentUser;
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isValid, setIsValid] = useState(false);
   const [message, setMessage] = useState("");
   const { setActiveForm } = useContext(FormContextSetterProvider);
-  const [userInput, setUserInput] = useState(
-    ForgotPasswordHelperFunction()
-  );
+  const [userInput, setUserInput] = useState(ForgotPasswordHelperFunction());
   const socialMediaIconsArray = [GoogleIcon, FaceBookIcon, LinkedInIcon];
   const emailStrength = useEmailValidation(userInput, 0);
 
@@ -52,22 +45,15 @@ const ForgotPassword = () => {
     }
     try {
       setIsLoading(true);
-      await updatePassword(auth, email);
+      await sendPasswordResetEmail(auth, email);
       setMessage(acknowledgeMessagesText.SUCCESS_OK);
       setTimeout(() => {
         setMessage("");
       }, 2000);
-      navigate("/Home");
     } catch (error) {
       console.log(error);
       setIsLoading(false);
-      if (error.code === firebaseMessagesText.EMAIL_ALREADY_IN_USE) {
-        setMessage(acknowledgeMessagesText.EXISTING_EMAIL_ERROR);
-      }
-      if (
-        email &&
-        error.code === firebaseMessagesText.INVALID_EMAIL
-      ) {
+      if (email && error.code === firebaseMessagesText.INVALID_EMAIL) {
         setMessage(acknowledgeMessagesText.INVALID_EMAIL_ADDRESS_ERROR);
       }
       setTimeout(() => {
@@ -89,7 +75,11 @@ const ForgotPassword = () => {
       <div className="absolute inset-0 flex justify-center items-center">
         <div className="grid grid-flow-row grid-cols-12 bg-white border-2 border-neutral-100 shadow-xl rounded-3xl p-5 md:w-fit sm:w-10/12 w-11/12">
           <div className="bg-neutral-50 rounded-3xl col-span-6 lg:block hidden">
-            <img src={AuthAsset} alt="image" className="xl:w-full xl:h-full w-96 h-96" />
+            <img
+              src={AuthAsset}
+              alt="image"
+              className="xl:w-full xl:h-full w-96 h-96"
+            />
           </div>
           <div className="lg:col-span-6 col-span-12">
             <div className="flex justify-end items-center gap-4 mb-5">

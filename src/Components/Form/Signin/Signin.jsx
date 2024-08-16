@@ -7,7 +7,12 @@ import {
 } from "../../../Global/text";
 import { Check, CircleAlert, X } from "lucide-react";
 import { iconsColor } from "../../../Global/colors";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithRedirect,
+} from "firebase/auth";
 import app from "../../../Global/firebaseConfig";
 import AuthButton from "../../Buttons/Submit/AuthButton";
 import { useNavigate } from "react-router-dom";
@@ -27,6 +32,7 @@ import SuccessMessageToaster from "../../Toaster/SuccessMessageToaster";
 
 const Signin = () => {
   const auth = getAuth(app);
+  const googleProvider = new GoogleAuthProvider();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -82,6 +88,15 @@ const Signin = () => {
       }, 5000);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithRedirect(auth, googleProvider);
+    } catch (error) {
+      console.log(error);
+      navigate("/");
     }
   };
 
@@ -257,6 +272,7 @@ const Signin = () => {
                     <div
                       key={uuidv4()}
                       className="border border-neutral-200 hover:bg-neutral-50 rounded-full p-3 cursor-pointer w-fit"
+                      onClick={handleGoogleLogin}
                     >
                       <img
                         src={socialMediaIcons}
