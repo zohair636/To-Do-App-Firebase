@@ -9,10 +9,10 @@ const ProfileBuilder = () => {
   const profileBuilderData = SideBarHelperFunction();
   const defaultIconSize = 20;
 
-  const defaultIconColor = iconsColor.ACTIVE_ICON_COLOR;
+  const defaultIconColor = iconsColor.IN_ACTIVE_ICON_COLOR;
 
   return (
-    <div className="max-h-80 overflow-y-auto">
+    <div className="lg:max-h-80 max-h-64 overflow-y-auto">
     <div className="mx-5 my-7">
       <h6 className="text-neutral-600 text-base font-bold">
         {sideBarText.LINKS_LABEL}

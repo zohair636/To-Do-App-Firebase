@@ -34,7 +34,7 @@ const Sidebar = () => {
   return (
     <div
       className={`fixed top-0 bottom-0 left-0 bg-white border border-neutral-200 ${
-        sideBar[0]?.isSideBarClosed === true ? "w-fit" : "w-60"
+        sideBar[0]?.isSideBarClosed ? "w-fit" : "w-60"
       } m-2 rounded-xl shadow-lg`}
     >
       {sideBar.map((items, index) => {
@@ -48,7 +48,7 @@ const Sidebar = () => {
                     handleCloseSideBar(index, items?.isSideBarClosed)
                   }
                 >
-                  {items?.isSideBarClosed === true
+                  {items?.isSideBarClosed
                     ? items?.toggle_icons?.open
                     : items?.toggle_icons?.close}
                 </p>
@@ -67,7 +67,7 @@ const Sidebar = () => {
                   }
                 >
                   {dashboardIndex === 0 ? (
-                    <p className="text-neutral-600 text-xs font-semibold uppercase">
+                    <p className="text-sky-700 text-xs font-semibold uppercase">
                       {dashboard?.title}
                     </p>
                   ) : (
@@ -75,20 +75,26 @@ const Sidebar = () => {
                       <div
                         className={`${
                           activeMenu === dashboard?.title
-                            ? "absolute mt-1 left-0 border-l-4 border-neutral-600 h-6 rounded-full"
+                            ? "absolute mt-1 left-0 border-l-4 border-sky-700 h-6 rounded-full"
                             : null
                         }`}
                       />
                       <ul
                         className={`flex ${
-                          items?.isSideBarClosed === true
+                          items?.isSideBarClosed
                             ? "justify-center"
                             : "justify-start"
                         } items-center cursor-pointer hover:bg-neutral-100 hover:duration-300 duration-300 p-1 rounded-md`}
                       >
                         <p className="px-2">{dashboard?.icon}</p>
                         {items?.isSideBarClosed === true ? null : (
-                          <li className="text-neutral-600 font-semibold px-3">
+                          <li
+                            className={`${
+                              activeMenu === dashboard?.title
+                                ? "text-sky-700"
+                                : "text-neutral-600"
+                            } font-semibold px-3`}
+                          >
                             {dashboard?.title}
                           </li>
                         )}
@@ -100,11 +106,9 @@ const Sidebar = () => {
             })}
             <>
               <div
-                className={`flex ${
-                  items?.isSideBarClosed === true
-                    ? "justify-center"
-                    : "justify-start"
-                } items-center cursor-pointer hover:bg-neutral-100 hover:duration-300 duration-300 p-1 m-3 rounded-md absolute inset-0 top-3/4 mt-10 h-fit`}
+                className={`flex justify-center items-center cursor-pointer hover:bg-neutral-100 hover:duration-300 duration-300 p-1 rounded-md absolute bottom-28 h-fit ${
+                  items?.isSideBarClosed ? "mx-6" : "mx-2"
+                }`}
                 onClick={() => setIsSettingsModalOpen(true)}
               >
                 <p className="px-2">{items?.setting?.icon}</p>
@@ -115,11 +119,9 @@ const Sidebar = () => {
                 )}
               </div>
               <div
-                className={`flex ${
-                  items?.isSideBarClosed === true
-                    ? "justify-center"
-                    : "justify-start"
-                } items-center absolute inset-0 top-3/4 mt-24 m-3`}
+                className={`absolute flex justify-center items-center bottom-8 ${
+                  items?.isSideBarClosed ? "mx-5" : "mx-2"
+                }`}
               >
                 <img
                   src={ProfileImage}
@@ -127,7 +129,7 @@ const Sidebar = () => {
                   className="w-10 h-10 rounded-full mx-2"
                 />
                 {items?.isSideBarClosed === true ? null : (
-                  <div className="flex justify-between items-start">
+                  <div className="flex justify-between items-start relative">
                     <div>
                       <p className="text-neutral-600 font-semibold px-3">
                         Zohair Ajmal
@@ -136,7 +138,7 @@ const Sidebar = () => {
                         hafiz.zohair2@gmail.com
                       </p>
                     </div>
-                    <div className="absolute right-0 bottom-6 cursor-pointer">
+                    <div className="absolute right-0 bottom-4 cursor-pointer">
                       <sup>{items?.profile?.icon}</sup>
                     </div>
                   </div>

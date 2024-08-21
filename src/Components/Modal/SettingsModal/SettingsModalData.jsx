@@ -11,11 +11,13 @@ import GeneralOption from "../../SideBar/SettingsOptions/GeneralOption";
 import PersonalizationOption from "../../SideBar/SettingsOptions/PersonalizationOption";
 import DataControls from "../../SideBar/SettingsOptions/DataControls";
 import ProfileBuilder from "../../SideBar/SettingsOptions/ProfileBuilder";
-import '../../../App.css';
+import "../../../App.css";
 
 const SettingsModalData = ({ onClose }) => {
   const { sideBarOptionsActiveMenu } = useContext(SideBarContextGetterProvider);
-  const { setSideBarOptionsActiveMenu } = useContext(SideBarContextSetterProvider);
+  const { setSideBarOptionsActiveMenu } = useContext(
+    SideBarContextSetterProvider
+  );
   const [settingsOptions, setSettingsOptions] = useState([
     SideBarHelperFunction(),
   ]);
@@ -28,7 +30,7 @@ const SettingsModalData = ({ onClose }) => {
         </h1>
         <X
           size={30}
-          color={iconsColor.ACTIVE_ICON_COLOR}
+          color={iconsColor.IN_ACTIVE_ICON_COLOR}
           onClick={onClose}
           className="hover:bg-neutral-200 rounded-full cursor-pointer p-1"
         />
@@ -37,11 +39,14 @@ const SettingsModalData = ({ onClose }) => {
       <div className="grid grid-flow-row grid-cols-12">
         {settingsOptions.map((items) => {
           return (
-            <div key={items?.id} className="md:col-span-3 md:block flex w-[50rem] max-w-screen overflow-x-auto relative no-scrollbar">
-              <div className="md:hidden bg-neutral-200/90 absolute inset-[0.65rem] w-[50rem] h-8 -z-10 rounded-lg" />
+            <div
+              key={items?.id}
+              className="md:col-span-3 col-span-12 flex flex-wrap justify-start items-center overflow-x-auto no-scrollbar"
+            >
+              {/* <div className="md:hidden bg-neutral-200/90 absolute inset-[0.65rem] w-[50rem] h-8 -z-10 rounded-lg" /> */}
               {items?.setting?.options.map((option) => {
                 return (
-                  <div key={option?.id} className="mx-3 my-3">
+                  <div key={option?.id} className="mx-3 my-3 w-fit">
                     <ul
                       className={`flex justify-start items-center cursor-pointer px-3 p-1 ${
                         sideBarOptionsActiveMenu === option?.title
@@ -51,7 +56,9 @@ const SettingsModalData = ({ onClose }) => {
                       onClick={() => setSideBarOptionsActiveMenu(option?.title)}
                     >
                       <p>{option?.icon}</p>
-                      <li className="text-neutral-600 md:text-base text-sm px-3">{option?.title}</li>
+                      <li className="text-neutral-600 md:text-base text-sm px-3">
+                        {option?.title}
+                      </li>
                     </ul>
                   </div>
                 );

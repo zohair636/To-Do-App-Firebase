@@ -8,9 +8,9 @@ const SubPageHeader = () => {
   return (
     <div className="cursor-pointer">
       {isNotificationAvailable ? (
-        <BellDot size={20} color={iconsColor.ACTIVE_ICON_COLOR} />
+        <BellDot size={20} color={iconsColor.IN_ACTIVE_ICON_COLOR} />
       ) : (
-        <Bell size={20} color={iconsColor.ACTIVE_ICON_COLOR} />
+        <Bell size={20} color={iconsColor.IN_ACTIVE_ICON_COLOR} />
       )}
     </div>
   );

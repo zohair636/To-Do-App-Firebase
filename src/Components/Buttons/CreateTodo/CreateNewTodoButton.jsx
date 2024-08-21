@@ -5,7 +5,7 @@ const CreateNewTodoButton = ({ onClick }) => {
     <div>
       <button
         onClick={onClick}
-        className="bg-neutral-600 text-white p-1.5 px-3 rounded-lg"
+        className="bg-sky-700 text-white p-1.5 px-3 rounded-lg"
       >
         {homeText.CREATE_NEW_TODO_LABEL}
       </button>

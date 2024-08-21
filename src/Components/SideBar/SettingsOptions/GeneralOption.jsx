@@ -77,7 +77,7 @@ const GeneralOption = () => {
                             {selectedTheme === theme?.title && (
                               <CircleCheck
                                 size={15}
-                                color={iconsColor.ACTIVE_ICON_COLOR}
+                                color={iconsColor.IN_ACTIVE_ICON_COLOR}
                               />
                             )}
                           </div>

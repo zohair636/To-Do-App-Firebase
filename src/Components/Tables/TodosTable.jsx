@@ -82,7 +82,7 @@ const TodosTable = () => {
   });
 
   return (
-    <div className="border-2 border-neutral-200 rounded-2xl overflow-hidden">
+    <div className="border-2 border-neutral-200 rounded-2xl">
       <table className="w-full table-fixed">
         <thead>
           <tr>

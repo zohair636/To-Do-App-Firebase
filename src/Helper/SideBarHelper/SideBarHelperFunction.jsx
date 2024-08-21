@@ -27,7 +27,7 @@ import { iconsColor } from "../../Global/colors";
 const defaultIconSize = 20;
 const profileIconSize = 15;
 
-const defaultIconColor = iconsColor.ACTIVE_ICON_COLOR;
+const defaultIconColor = iconsColor.IN_ACTIVE_ICON_COLOR;
 
 const SideBarHelperFunction = () => ({
   id: crypto.randomUUID(),
@@ -51,7 +51,7 @@ const SideBarHelperFunction = () => ({
     {
       id: crypto.randomUUID(),
       title: sideBarText.HOME_LABEL,
-      icon: <Home size={defaultIconSize} color={defaultIconColor} />,
+      icon: <Home size={defaultIconSize} color={iconsColor.ACTIVE_ICON_COLOR} />,
     },
     {
       id: crypto.randomUUID(),

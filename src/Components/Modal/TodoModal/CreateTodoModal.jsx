@@ -18,7 +18,7 @@ const CreateTodoModal = ({ visible, children, onClose }) => {
         onClick={onClose}
       />
       <div
-        className="fixed z-50 bg-white w-4/12 h-fit rounded-3xl overflow-y-auto"
+        className="fixed z-50 bg-white xl:w-4/12 lg:w-6/12 w-8/12 h-fit rounded-3xl overflow-y-auto"
         style={{ top: "50%", left: "50%", transform: `translate(-50%, -50%)` }}
       >
         {children}

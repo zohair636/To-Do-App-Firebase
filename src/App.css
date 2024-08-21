@@ -1,3 +1,7 @@
+body{
+  background-color: #FAFAFA;
+}
+
 /* For modern browsers */
 .no-scrollbar {
   -ms-overflow-style: none; /* Internet Explorer 10+ */

@@ -20,7 +20,7 @@ const Home = () => {
   const [openTodoModal, setOpenTodoModal] = useState(false);
 
   return (
-    <div className="bg-neutral-50 absolute top-0 bottom-0 left-0 right-0 flex">
+    <div className="flex">
       <div className={`flex-shrink-0 ${isSideBarClosed ? "w-28" : "w-64"}`}>
         <Sidebar />
       </div>
