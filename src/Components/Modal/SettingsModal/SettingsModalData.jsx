@@ -36,17 +36,18 @@ const SettingsModalData = ({ onClose }) => {
         />
       </div>
       <div className="border-b border-neutral-300" />
-      <div className="grid grid-flow-row grid-cols-12">
+      <div className="md:grid md:grid-flow-row md:grid-cols-12">
         {settingsOptions.map((items) => {
           return (
             <div
               key={items?.id}
-              className="md:col-span-3 col-span-12 flex flex-wrap justify-start items-center overflow-x-auto no-scrollbar"
+              className="md:col-span-3 col-span-12 justify-start items-center overflow-x-auto no-scrollbar w-full"
             >
+              <div className="md:flex-none flex flex-wrap">
               {/* <div className="md:hidden bg-neutral-200/90 absolute inset-[0.65rem] w-[50rem] h-8 -z-10 rounded-lg" /> */}
               {items?.setting?.options.map((option) => {
                 return (
-                  <div key={option?.id} className="mx-3 my-3 w-fit">
+                  <div key={option?.id} className="mx-3 mt-3 w-fit">
                     <ul
                       className={`flex justify-start items-center cursor-pointer px-3 p-1 ${
                         sideBarOptionsActiveMenu === option?.title
@@ -63,6 +64,7 @@ const SettingsModalData = ({ onClose }) => {
                   </div>
                 );
               })}
+            </div>
             </div>
           );
         })}
